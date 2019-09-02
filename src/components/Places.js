@@ -1,18 +1,107 @@
 import React from 'react'
 import Nav from './Nav'
+import Thumbnail from './Thumbnail'
 import '../styles/filters.css'
+import '../styles/grid.css'
 
 class Places extends React.Component {
 	state = {
 		user: {
 			name: 'Tony'
-		}
+		},
+		info: [
+			{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 7,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+			}
+		]
 	}
 	render() {
 		return(
 			<>
 				<Nav user={this.state.user} />
-				<div class="filters">
+				<div className="filters">
 					<select>
 						<option value="1">Rooms: 1</option>
 						<option value="1">Rooms: 2</option>
@@ -41,7 +130,9 @@ class Places extends React.Component {
 					</select>
 					<input type="text" className="search" placeholder="Search..." />
 				</div>
-				
+				<div class="grid five large">
+					{this.state.info.map(place => <Thumbnail info={place} />)}
+				</div>
 			</>
 		)
 	}
