@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>Airbnb</title>
+		<script src="https://kit.fontawesome.com/11c1240f25.js"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
+		<link rel="stylesheet" href="./styles/global.css">
+		<link rel="stylesheet" href="./styles/grid.css">
+		<link rel="stylesheet" href="./styles/cards.css">
+		<link rel="stylesheet" href="./styles/forms.css">
+		<link rel="stylesheet" href="./styles/buttons.css">
+		<link rel="stylesheet" href="./styles/sidebar.css">
+		<link rel="stylesheet" href="./styles/nav.css">
+		<link rel="stylesheet" href="./styles/users.css">
+		<link rel="stylesheet" href="./styles/icons.css">
+	</head>
+	<body>
+		<nav>
+			<div class="logo" style="background-image: url('https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c513.png')"></div>
+			<div class="search">
+			</div>
+			<div class="profile">
+				<button>
+					<div class="avatar" style="background-image: url('https://randomuser.me/api/portraits/men/9.jpg')"></div>
+					<span>Tony</span>
+				</button>
+			</div>
+		</nav>
+		<div class="grid medium">
+			<div class="grid sidebar-left">
+				<div class="sidebar">
+					<div class="card link">
+						<div class="image" style="background-image: url('https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg')">
+							<button class="icon">
+								<i class="far fa-heart"></i>
+							</button>
+						</div>
+						<div class="content">
+							<small class="meta">Entire Villa • 7 Rooms</small>
+							<h2>Luxury Villa Indu Siam</h2>
+							<span class="price">$350/night</span>
+							<span class="rating">
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="far fa-star"></i>
+								<span>37 Reviews</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="content">
+					<h2>Confirm Booking</h2>
+					<form>
+						<div class="group">
+							<label>From</label>
+							<input type="text" value="12/11/2019">
+						</div>
+						<div class="group">
+							<label>To</label>
+							<input type="text" value="15/11/2019">
+						</div>
+						<div class="group">
+							<label>Guests</label>
+							<select>
+								<option>1 guest</option>
+								<option>2 guests</option>
+								<option>3 guests</option>
+								<option selected>4 guests</option>
+								<option>5 guests</option>
+								<option>6 guests</option>
+								<option>7 guests</option>
+								<option>8 guests</option>
+								<option>9 guests</option>
+								<option>10 guests</option>
+							</select>
+						</div>
+						<div class="group">
+							<label>Total: 3 nights</label>
+							<h2>$1,050</h2>
+						</div>
+						<button class="primary">Confirm</button>
+					</form>
+					<hr>
+					<button>Cancel</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
