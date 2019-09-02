@@ -7,7 +7,7 @@ class Routes extends React.Component {
 		return(
 			<BrowserRouter>
 				<Switch>
-					<Places />
+					<Route path='/' component={Places} />
 				</Switch>
 			</BrowserRouter>
 		)
