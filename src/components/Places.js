@@ -1,9 +1,17 @@
 import React from 'react'
+import Nav from './Nav'
 
 class Places extends React.Component {
+	state = {
+		user: {
+			name: 'Tony'
+		}
+	}
 	render() {
 		return(
-				<h1>Places Test</h1>
+			<>
+				<Nav user={this.state.user} />
+			</>
 		)
 	}
 }
