@@ -1,5 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import '../styles/buttons.css'
+import '../styles/forms.css'
 
 class Signup extends React.Component {
 	render() {
