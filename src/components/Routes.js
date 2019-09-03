@@ -9,6 +9,7 @@ import Favorites from './Favorites'
 import Host from './Host'
 import Create from './Create'
 import Signup from './Signup'
+import Login from './Login'
 import '../styles/global.css'
 
 class Routes extends React.Component {
@@ -19,6 +20,7 @@ class Routes extends React.Component {
 					<Route path='/Signup' component={Signup} />
 					<Route path='/Profile' component={Profile} />
 					<Route path='/Place' component={Place} />
+					<Route path='/Login' component={Login} />
 					<Route path='/Host' component={Host} />
 					<Route path='/Favorites' component={Favorites} />
 					<Route path='/Create' component={Create} />
