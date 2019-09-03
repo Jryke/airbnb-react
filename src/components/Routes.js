@@ -8,6 +8,7 @@ import Bookings from './Bookings'
 import Favorites from './Favorites'
 import Host from './Host'
 import Create from './Create'
+import Signup from './Signup'
 import '../styles/global.css'
 
 class Routes extends React.Component {
@@ -15,9 +16,10 @@ class Routes extends React.Component {
 		return(
 			<BrowserRouter>
 				<Switch>
-					<Route path='/Host' component={Host} />
+					<Route path='/Signup' component={Signup} />
 					<Route path='/Profile' component={Profile} />
 					<Route path='/Place' component={Place} />
+					<Route path='/Host' component={Host} />
 					<Route path='/Favorites' component={Favorites} />
 					<Route path='/Create' component={Create} />
 					<Route path='/Confirm' component={Confirm} />
