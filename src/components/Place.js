@@ -3,7 +3,6 @@ import Nav from './Nav'
 import '../styles/gallery.css'
 import '../styles/users.css'
 import '../styles/reviews.css'
-import '../styles/sidebar.css'
 import '../styles/forms.css'
 
 class Place extends React.Component {
