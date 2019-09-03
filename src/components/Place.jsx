@@ -1,9 +1,9 @@
 import React from 'react'
 import Nav from './Nav.jsx'
+import Gallery from './Gallery.jsx'
 import '../styles/filters.css'
 import '../styles/grid.css'
 import '../styles/buttons.css'
-import '../styles/gallery.css'
 import '../styles/icons.css'
 import '../styles/reviews.css'
 import '../styles/users.css'
@@ -95,17 +95,7 @@ class Place extends React.Component {
 		return(
 			<>
 				<Nav user={this.state.user}/>
-				<div className="gallery">
-					<div className="image-main" style={{backgroundImage: `url(${this.state.selected})`}}>
-						<button className="icon">
-							<i className="far fa-heart"></i>
-						</button>
-					</div>
-					<div className="thumbnails">
-						{this.state.pictures.map((link, i) => <div className="thumbnail" style={{backgroundImage: `url(${link})`}} key={`picture${i}`}></div>)}
-					</div>
-				</div>
-
+				<Gallery pictures={this.state.pictures} selected={this.state.selected}/>
 				<div className="grid medium">
 					<div className="grid sidebar-right">
 						<div className="content">
