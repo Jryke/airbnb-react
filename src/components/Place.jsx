@@ -1,6 +1,7 @@
 import React from 'react'
 import Nav from './Nav.jsx'
 import Gallery from './Gallery.jsx'
+import Review from './Review.jsx'
 import '../styles/filters.css'
 import '../styles/grid.css'
 import '../styles/buttons.css'
@@ -146,29 +147,7 @@ class Place extends React.Component {
 										<button className="primary small">Submit</button>
 									</div>
 								</form>
-								{this.state.reviews.map((review, i) => {
-									return(
-										<div className="card review" key={`review${i}`}>
-											<div className="content">
-												<div className="user">
-													<div className="avatar" style={{backgroundImage: `url(${review.avatar})`}}></div>
-													<div className="name">
-														<small>{review.date}</small>
-														<span>{review.name}</span>
-													</div>
-												</div>
-												<div className="rating">
-													<i className="fas fa-star"></i>
-													<i className="fas fa-star"></i>
-													<i className="fas fa-star"></i>
-													<i className="fas fa-star"></i>
-													<i className="fas fa-star"></i>
-												</div>
-												<p>{review.review}</p>
-											</div>
-										</div>
-									)
-								})}
+								{this.state.reviews.map((review, i) => <Review key={i} review={review}/>)}
 
 
 							</div>
