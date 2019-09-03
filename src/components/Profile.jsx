@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from './Nav'
-import Sidebar from './Sidebar'
+import Nav from './Nav.jsx'
+import Sidebar from './Sidebar.jsx'
 
 class Profile extends React.Component {
 	state = {

@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from './Nav'
-import Sidebar from './Sidebar'
+import Nav from './Nav.jsx'
+import Sidebar from './Sidebar.jsx'
 import '../styles/grid.css'
 import '../styles/buttons.css'
 import '../styles/forms.css'

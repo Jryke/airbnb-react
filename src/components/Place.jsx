@@ -1,5 +1,5 @@
 import React from 'react'
-import Nav from './Nav'
+import Nav from './Nav.jsx'
 import '../styles/gallery.css'
 import '../styles/users.css'
 import '../styles/reviews.css'

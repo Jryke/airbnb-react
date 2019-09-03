@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from './Nav'
-import Thumbnail from './Thumbnail'
+import Nav from './Nav.jsx'
+import Thumbnail from './Thumbnail.jsx'
 import '../styles/filters.css'
 import '../styles/grid.css'
 

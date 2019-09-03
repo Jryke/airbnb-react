@@ -1,7 +1,7 @@
 import React from 'react'
-import Nav from './Nav'
-import Sidebar from './Sidebar'
-import Thumbnail from './Thumbnail'
+import Nav from './Nav.jsx'
+import Sidebar from './Sidebar.jsx'
+import Thumbnail from './Thumbnail.jsx'
 import '../styles/grid.css'
 import '../styles/sidebar.css'
 
