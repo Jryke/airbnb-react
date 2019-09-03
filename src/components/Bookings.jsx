@@ -41,7 +41,8 @@ class Bookings extends React.Component {
 				location: 'Koh Samui, Thailand',
 				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg'
 			}
-		]
+		],
+		currentPage: 'bookings'
 	}
 	render() {
 		return(
@@ -49,7 +50,7 @@ class Bookings extends React.Component {
 				<Nav user={this.state.user} />
 				<div class="grid medium">
 					<div class="grid sidebar-left">
-						<Sidebar />
+						<Sidebar currentPage={this.state.currentPage}/>
 						<div class="content">
 							<h2>Upcoming Trips</h2>
 							<div class="grid two">

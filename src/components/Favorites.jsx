@@ -19,7 +19,8 @@ class Favorites extends React.Component {
 			price: 350,
 			reviews: 37,
 			img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
-		}
+		},
+		currentPage: 'favorites'
 	}
 	render() {
 		return(
@@ -27,7 +28,7 @@ class Favorites extends React.Component {
 				<Nav user={this.state.user} />
 				<div className="grid medium">
 					<div className="grid sidebar-left">
-					<Sidebar />
+					<Sidebar currentPage={this.state.currentPage}/>
 					<div className="content">
 						<h2>My Favorites</h2>
 						<div className="grid two">

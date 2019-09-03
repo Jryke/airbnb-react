@@ -13,15 +13,17 @@ class Profile extends React.Component {
 			email: 'tony@tortugacoders.com',
 			location: 'Thailand',
 			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
-		}
+		},
+		currentPage: 'profile'
 	}
+
 	render(){
 		return(
 			<>
 				<Nav user={this.state.user}/>
 				<div className="grid medium">
 					<div className="grid sidebar-left">
-						<Sidebar />
+						<Sidebar currentPage={this.state.currentPage}/>
 						<div className="content">
 							<h2>My Profile</h2>
 							<form>

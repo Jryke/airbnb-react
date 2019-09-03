@@ -32,7 +32,8 @@ class Host extends React.Component {
 				reviews: 127,
 				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg'
 			},
-		]
+		],
+		currentPage: 'host'
 	}
 	render() {
 		return(
@@ -40,7 +41,7 @@ class Host extends React.Component {
 				<Nav user={this.state.user} />
 				<div className="grid medium">
 					<div className="grid sidebar-left">
-						<Sidebar />
+						<Sidebar currentPage={this.state.currentPage}/>
 						<div className="content">
 							<Link className="button primary" to="/create">Host new place</Link>
 							<hr />
