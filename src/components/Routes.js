@@ -17,15 +17,15 @@ class Routes extends React.Component {
 		return(
 			<BrowserRouter>
 				<Switch>
-					<Route path='/Signup' component={Signup} />
-					<Route path='/Profile' component={Profile} />
-					<Route path='/Place' component={Place} />
-					<Route path='/Login' component={Login} />
-					<Route path='/Host' component={Host} />
-					<Route path='/Favorites' component={Favorites} />
-					<Route path='/Create' component={Create} />
-					<Route path='/Confirm' component={Confirm} />
-					<Route path='/Bookings' component={Bookings} />
+					<Route path='/signup' component={Signup} />
+					<Route path='/profile' component={Profile} />
+					<Route path='/place' component={Place} />
+					<Route path='/login' component={Login} />
+					<Route path='/host' component={Host} />
+					<Route path='/favorites' component={Favorites} />
+					<Route path='/create' component={Create} />
+					<Route path='/confirm' component={Confirm} />
+					<Route path='/bookings' component={Bookings} />
 					<Route path='/' component={Places} />
 				</Switch>
 			</BrowserRouter>
