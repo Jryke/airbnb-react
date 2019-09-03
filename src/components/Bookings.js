@@ -2,6 +2,8 @@ import React from 'react'
 import Nav from './Nav'
 import Sidebar from './Sidebar'
 import Thumbnail from './Thumbnail'
+import '../styles/grid.css'
+import '../styles/sidebar.css'
 
 class Bookings extends React.Component {
 	state = {
