@@ -1,6 +1,10 @@
 import React from 'react'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
+import '../styles/grid.css'
+import '../styles/sidebar.css'
+import '../styles/forms.css'
+import '../styles/buttons.css'
 
 class Profile extends React.Component {
 	state = {

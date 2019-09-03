@@ -1,6 +1,9 @@
 import React from 'react'
 import Nav from './Nav.jsx'
 import Thumbnail from './Thumbnail.jsx'
+import '../styles/grid.css'
+import '../styles/forms.css'
+import '../styles/buttons.css'
 
 class Confirm extends React.Component {
 	state = {

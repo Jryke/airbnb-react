@@ -1,9 +1,12 @@
 import React from 'react'
 import Nav from './Nav.jsx'
+import '../styles/filters.css'
+import '../styles/grid.css'
+import '../styles/buttons.css'
 import '../styles/gallery.css'
-import '../styles/users.css'
+import '../styles/icons.css'
 import '../styles/reviews.css'
-import '../styles/forms.css'
+import '../styles/users.css'
 
 class Place extends React.Component {
 	state = {
