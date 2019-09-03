@@ -4,6 +4,7 @@ import Places from './Places'
 import Place from './Place'
 import Confirm from './Confirm'
 import Profile from './Profile'
+import Bookings from './Bookings'
 import '../styles/global.css'
 
 class Routes extends React.Component {
@@ -14,6 +15,7 @@ class Routes extends React.Component {
 					<Route path='/Profile' component={Profile} />
 					<Route path='/Place' component={Place} />
 					<Route path='/Confirm' component={Confirm} />
+					<Route path='/Bookings' component={Bookings} />
 					<Route path='/' component={Places} />
 				</Switch>
 			</BrowserRouter>
