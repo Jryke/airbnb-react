@@ -1,6 +1,9 @@
 import React from 'react'
 import Nav from './Nav'
 import Sidebar from './Sidebar'
+import '../styles/grid.css'
+import '../styles/buttons.css'
+import '../styles/forms.css'
 
 class Create extends React.Component {
 	state ={
