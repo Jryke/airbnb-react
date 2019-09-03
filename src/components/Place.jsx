@@ -92,11 +92,17 @@ class Place extends React.Component {
 		]
 	}
 
+	changeSelected = (newSelected) => {
+		this.setState({
+			selected: newSelected
+		})
+	}
+
 	render() {
 		return(
 			<>
 				<Nav user={this.state.user}/>
-				<Gallery pictures={this.state.pictures} selected={this.state.selected}/>
+				<Gallery pictures={this.state.pictures} selected={this.state.selected} changeSelected={this.changeSelected}/>
 				<div className="grid medium">
 					<div className="grid sidebar-right">
 						<div className="content">

@@ -11,7 +11,7 @@ class Gallery extends React.Component {
 					</button>
 				</div>
 				<div className="thumbnails">
-					{this.props.pictures.map((link, i) => <div className="thumbnail" style={{backgroundImage: `url(${link})`}} key={`picture${i}`}></div>)}
+					{this.props.pictures.map((link, i) => <div className="thumbnail" style={{backgroundImage: `url(${link})`}} onClick={() => this.props.changeSelected(link)} key={`picture${i}`}></div>)}
 				</div>
 			</div>
 		)
