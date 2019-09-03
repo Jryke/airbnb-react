@@ -2,6 +2,11 @@ import React from 'react'
 import Nav from './Nav'
 import Sidebar from './Sidebar'
 import Thumbnail from './Thumbnail'
+import {Link} from 'react-router-dom'
+import '../styles/grid.css'
+import '../styles/sidebar.css'
+import '../styles/buttons.css'
+
 
 class Host extends React.Component {
 	state = {
@@ -37,7 +42,7 @@ class Host extends React.Component {
 					<div className="grid sidebar-left">
 						<Sidebar />
 						<div className="content">
-							<a className="button primary" href="create.html">Host new place</a>
+							<Link className="button primary" to="/create">Host new place</Link>
 							<hr />
 							<h2>Places I'm hosting</h2>
 							<div className="grid two">
