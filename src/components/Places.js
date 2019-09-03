@@ -7,7 +7,8 @@ import '../styles/grid.css'
 class Places extends React.Component {
 	state = {
 		user: {
-			name: 'Tony'
+			name: 'Tony',
+			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
 		},
 		info: [
 			{
