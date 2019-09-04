@@ -73,22 +73,34 @@ class Place extends React.Component {
 				name: 'Amanda',
 				avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
 				date: '27 July 2019',
-				review:'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.'
+				review: {
+					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
+					rating: 5
+				}
 			},{
 				name: 'John',
 				avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
 				date: '22 July 2019',
-				review: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.'
+				review: {
+					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
+					rating: 3
+				}
 			},{
 				name: 'Sam',
 				avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
 				date: '4 July 2019',
-				review: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.'
+				review: {
+					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
+					rating: 1
+				}
 			},{
 				name: 'Ella',
 				avatar: 'https://randomuser.me/api/portraits/women/7.jpg',
 				date: '27 May 2019',
-				review: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.'
+				review: {
+					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
+					rating: 4
+				}
 			}
 		],
 		review:{
@@ -174,7 +186,7 @@ class Place extends React.Component {
 										<button className="primary small">Submit</button>
 									</div>
 								</form>
-								{this.state.reviews.map((review, i) => <Review key={i} review={review}/>)}
+								{this.state.reviews.map((review, i) => <Review key={i} review={review} />)}
 							</div>
 						</div>
 						<div className="sidebar booking">

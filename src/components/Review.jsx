@@ -1,6 +1,9 @@
 import React from 'react'
 
 class Review extends React.Component {
+
+	colorStars = (index) => index + 1 <= this.props.review.review.rating ? 'fas': 'far'
+
 	render() {
 		return(
 			<div className="card review">
@@ -13,13 +16,9 @@ class Review extends React.Component {
 						</div>
 					</div>
 					<div className="rating">
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
+						{[...Array(5)].map((star, i) => <i className={`${this.colorStars(i)} fa-star`} key={i}></i>)}
 					</div>
-					<p>{this.props.review.review}</p>
+					<p>{this.props.review.review.text}</p>
 				</div>
 			</div>
 		)
