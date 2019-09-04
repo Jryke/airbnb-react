@@ -21,6 +21,8 @@ class Thumbnail extends React.Component {
 		}
 	}
 
+	colorStars = (index) => index + 1 <= this.props.info.rating ? 'fas': 'far'
+
 	render() {
 		return(
 			<Link className="card link" to="/Place">
@@ -35,11 +37,7 @@ class Thumbnail extends React.Component {
 					{this.renderLocation()}
 					<span className="price">${this.props.info.price}/night</span>
 					<span className="rating">
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
-						<i className="fas fa-star"></i>
-						<i className="far fa-star"></i>
+						{[...Array(5)].map((n, i) => <i className={`${this.colorStars(i)} fa-star`}></i>)}
 						<span>{this.props.info.reviews} Reviews</span>
 					</span>
 					{this.renderDates()}

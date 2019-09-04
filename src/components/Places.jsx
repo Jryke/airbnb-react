@@ -17,6 +17,7 @@ class Places extends React.Component {
 				rooms: 3,
 				price: 350,
 				reviews: 37,
+				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false,
 			},{
@@ -25,6 +26,7 @@ class Places extends React.Component {
 				rooms: 5,
 				price: 350,
 				reviews: 37,
+				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: true
 			},{
@@ -33,6 +35,7 @@ class Places extends React.Component {
 				rooms: 7,
 				price: 350,
 				reviews: 37,
+				rating: 1,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
@@ -41,14 +44,16 @@ class Places extends React.Component {
 				rooms: 1,
 				price: 350,
 				reviews: 37,
+				rating: 3,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 3,
+				rooms: 10,
 				price: 350,
 				reviews: 37,
+				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: true
 			},{
@@ -57,6 +62,7 @@ class Places extends React.Component {
 				rooms: 4,
 				price: 350,
 				reviews: 37,
+				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
@@ -65,6 +71,7 @@ class Places extends React.Component {
 				rooms: 6,
 				price: 350,
 				reviews: 37,
+				rating: 1,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
@@ -73,14 +80,16 @@ class Places extends React.Component {
 				rooms: 2,
 				price: 350,
 				reviews: 37,
+				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 1,
+				rooms: 9,
 				price: 350,
 				reviews: 37,
+				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
@@ -89,14 +98,16 @@ class Places extends React.Component {
 				rooms: 7,
 				price: 350,
 				reviews: 37,
+				rating: 1,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 5,
+				rooms: 8,
 				price: 350,
 				reviews: 37,
+				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
@@ -105,6 +116,7 @@ class Places extends React.Component {
 				rooms: 3,
 				price: 350,
 				reviews: 37,
+				rating: 2,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			}
@@ -129,7 +141,7 @@ class Places extends React.Component {
 				value: 'rating'
 			}
 		],
-		inputValue: ''
+		inputValue: '',
 	}
 
 	setInputValue = (e) => {
@@ -140,6 +152,17 @@ class Places extends React.Component {
 	}
 
 	filterPlaces = () => this.state.info.filter(place => place.name.toLowerCase().includes(this.state.inputValue.toLowerCase()))
+
+	filterByRooms = (e) => {
+		let filteredRooms = this.state.info.filter(place => place.rooms === Number(e.target.value))
+		console.log(filteredRooms)
+		console.log(e.target)
+		return filteredRooms
+	}
+
+	filter = (places, filter) => {
+
+	}
 
 	toggleLike = (e, i) => {
 		e.preventDefault()
@@ -153,7 +176,8 @@ class Places extends React.Component {
 			<>
 				<Nav user={this.state.user} />
 				<div className="filters">
-					<select>
+					<select onChange={(e) => this.filterByRooms(e)}>
+						<option>Rooms:</option>
 						{[...Array(10)].map((n, i) => <option value={i + 1} key={i}>Rooms: {i + 1}</option>)}
 					</select>
 					<select>
