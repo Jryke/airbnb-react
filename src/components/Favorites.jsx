@@ -19,6 +19,7 @@ class Favorites extends React.Component {
 				guests: 10,
 				price: 350,
 				reviews: 37,
+				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
 			}
 		],

@@ -22,6 +22,7 @@ class Host extends React.Component {
 				guests: 10,
 				price: 350,
 				reviews: 37,
+				rating: 3,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
@@ -31,6 +32,7 @@ class Host extends React.Component {
 				guests: 10,
 				price: 120,
 				reviews: 127,
+				rating: 2,
 				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg',
 				liked: true
 			},
