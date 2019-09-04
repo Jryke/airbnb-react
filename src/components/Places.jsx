@@ -108,8 +108,18 @@ class Places extends React.Component {
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			}
-		]
+		],
+		inputValue: ''
 	}
+
+	setInputValue = (e) => {
+		let searchText = e.target.value
+		this.setState({
+			inputValue: searchText
+		})
+	}
+
+	filterPlaces = () => this.state.info.filter(place => place.name.toLowerCase().includes(this.state.inputValue.toLowerCase()))
 
 	toggleLike = (e, i) => {
 		e.preventDefault()
@@ -149,10 +159,10 @@ class Places extends React.Component {
 						<option value="price">Price</option>
 						<option value="rating">Rating</option>
 					</select>
-					<input type="text" className="search" placeholder="Search..." />
+					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setInputValue(e)} value={this.state.inputValue}/>
 				</div>
 				<div className="grid five large">
-					{this.state.info.map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
+					{this.filterPlaces().map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
 				</div>
 			</>
 		)
