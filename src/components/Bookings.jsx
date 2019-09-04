@@ -20,6 +20,7 @@ class Bookings extends React.Component {
 				price: 350,
 				reviews: 37,
 				location: 'Koh Samui, Thailand',
+				dates: '10 Aug 2020 - 15 Aug 2020',
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: true
 			},{
@@ -30,7 +31,9 @@ class Bookings extends React.Component {
 				price: 190/3,
 				reviews: 18,
 				location: 'Bali, Indonesia',
-				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg'
+				dates: '01 May 2019 - 04 May 2019',
+				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg',
+				liked: false
 			},{
 				name: 'Tropical Architecture',
 				type: 'Private Room',
@@ -39,7 +42,9 @@ class Bookings extends React.Component {
 				price: 2980/9,
 				reviews: 290,
 				location: 'Koh Samui, Thailand',
-				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg'
+				dates: '18 April 2019 - 27 April 2019',
+				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg',
+				liked: true
 			}
 		],
 		currentPage: 'bookings'
@@ -56,16 +61,16 @@ class Bookings extends React.Component {
 		return(
 			<>
 				<Nav user={this.state.user} />
-				<div class="grid medium">
-					<div class="grid sidebar-left">
+				<div className="grid medium">
+					<div className="grid sidebar-left">
 						<Sidebar currentPage={this.state.currentPage}/>
-						<div class="content">
+						<div className="content">
 							<h2>Upcoming Trips</h2>
-							<div class="grid two">
+							<div className="grid two">
 								{this.state.trips.map((trip, i) => i === 0 ? <Thumbnail info={trip} toggleLike={this.toggleLike} index={i} key={i}/> : null)}
 							</div>
 							<h2>Past Trips</h2>
-							<div class="grid two">
+							<div className="grid two">
 							{this.state.trips.map((place, i) => i === 0 ? null : <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
 							</div>
 						</div>

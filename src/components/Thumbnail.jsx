@@ -6,6 +6,21 @@ class Thumbnail extends React.Component {
 
 	setHeartClass = () => this.props.info.liked ? 'fas' : 'far'
 
+	inputLocation = () => {
+		if (this.props.info.location) {
+			return <small class="location">
+				<i class="fas fa-map-marker-alt"></i>
+				<span>{this.props.info.location}</span>
+			</small>
+		}
+	}
+
+	inputDates = () => {
+		if (this.props.info.dates) {
+			return <span class="date">{this.props.info.dates}</span>
+		}
+	}
+
 	render() {
 		return(
 			<Link className="card link" to="/Place">
@@ -17,6 +32,7 @@ class Thumbnail extends React.Component {
 				<div className="content">
 					<small className="meta">{this.props.info.type} • {this.props.info.rooms} Rooms</small>
 					<h2>{this.props.info.name}</h2>
+					{this.inputLocation()}
 					<span className="price">${this.props.info.price}/night</span>
 					<span className="rating">
 						<i className="fas fa-star"></i>
@@ -26,6 +42,7 @@ class Thumbnail extends React.Component {
 						<i className="far fa-star"></i>
 						<span>{this.props.info.reviews} Reviews</span>
 					</span>
+					{this.inputDates()}
 				</div>
 			</Link>
 		)
