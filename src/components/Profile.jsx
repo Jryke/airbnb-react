@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
 import '../styles/grid.css'
@@ -51,7 +52,7 @@ class Profile extends React.Component {
 								<button>Save Changes</button>
 							</form>
 							<hr />
-							<button className="secondary">Logout</button>
+							<Link to="/login"><button className="secondary">Logout</button></Link>
 						</div>
 					</div>
 				</div>

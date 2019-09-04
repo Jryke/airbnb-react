@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Nav from './Nav.jsx'
 import Thumbnail from './Thumbnail.jsx'
 import '../styles/grid.css'
@@ -68,10 +69,10 @@ class Confirm extends React.Component {
 									<label>Total: {this.state.dates.nights} nights</label>
 									<h2>${this.state.dates.nights * this.state.place.price}</h2>
 								</div>
-								<button className="primary">Confirm</button>
+								<Link to="/bookings"><button className="primary">Confirm</button></Link>
 							</form>
 							<hr />
-							<button>Cancel</button>
+							<Link to="/places"><button>Cancel</button></Link>
 						</div>
 					</div>
 				</div>

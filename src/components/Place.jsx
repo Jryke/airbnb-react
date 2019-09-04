@@ -199,9 +199,6 @@ class Place extends React.Component {
 									<h3>${this.state.placeInfo.price}<small>per night</small></h3>
 									<small>
 										{[...Array(5)].map((n, i) => <i className={`${this.colorStarsPlace(i)} fa-star`} key={i}></i>)}
-
-
-
 										<span>{this.state.placeInfo.reviews} Reviews</span>
 									</small>
 									<form className="small">
@@ -217,7 +214,7 @@ class Place extends React.Component {
 											</select>
 										</div>
 										<div className="group">
-											<Link to="/bookings"><button className="secondary full">Book this place</button></Link>
+											<Link to="/confirm"><button className="secondary full">Book this place</button></Link>
 										</div>
 									</form>
 								</div>

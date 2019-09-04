@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
 import '../styles/grid.css'
@@ -76,7 +77,7 @@ class Create extends React.Component {
 									)
 								})}
 							</div>
-							<button className="primary">Publish this Place</button>
+							<Link to="/host"><button className="primary">Publish this Place</button></Link>
 							<button className="cancel"><i className="fas fa-times"></i></button>
 						</form>
 					</div>

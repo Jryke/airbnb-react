@@ -31,7 +31,7 @@ class Signup extends React.Component {
 								<label>Profile Picture</label>
 								<input type="file" />
 							</div>
-							<button className="primary">Signup</button>
+							<Link to="/"><button className="primary">Signup</button></Link>
 						</form>
 						<p className="footer">
 							Already have an account? <Link to="/Login">Login</Link>

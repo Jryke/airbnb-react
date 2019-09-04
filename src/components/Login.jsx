@@ -19,7 +19,7 @@ class Login extends React.Component {
 								<label>Password</label>
 								<input type="password" />
 							</div>
-							<button className="primary">Login</button>
+							<Link to="/"><button className="primary">Login</button></Link>
 						</form>
 						<p className="footer">
 							New to Airbnb? <Link to="/Signup">Signup</Link>
