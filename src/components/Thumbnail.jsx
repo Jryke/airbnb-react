@@ -3,12 +3,15 @@ import {Link} from 'react-router-dom'
 import '../styles/cards.css'
 
 class Thumbnail extends React.Component {
+
+	setHeartClass = () => this.props.info.liked ? 'fas' : 'far'
+
 	render() {
 		return(
 			<Link className="card link" to="/Place">
 				<div className="image" style={{backgroundImage: `url(${this.props.info.img})`}}>
-					<button className="icon">
-						<i className="far fa-heart"></i>
+					<button className="icon" onClick={(e) => this.props.toggleLike(e, this.props.index)}>
+						<i className={`${this.setHeartClass()} fa-heart`}></i>
 					</button>
 				</div>
 				<div className="content">

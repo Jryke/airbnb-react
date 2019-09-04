@@ -22,7 +22,8 @@ class Host extends React.Component {
 				guests: 10,
 				price: 350,
 				reviews: 37,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
+				liked: false
 			},{
 				name: 'Dreamy Tropical Tree House',
 				type: 'Entire House',
@@ -30,11 +31,20 @@ class Host extends React.Component {
 				guests: 10,
 				price: 120,
 				reviews: 127,
-				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg'
+				img: 'https://a0.muscache.com/4ea/air/v2/pictures/eee424d0-ca05-4405-8bdb-e5caf2db3fbe.jpg',
+				liked: true
 			},
 		],
 		currentPage: 'host'
 	}
+
+	toggleLike = (e, i) => {
+		e.preventDefault()
+		let place = this.state.hosted[i]
+		place.liked = !place.liked
+		this.setState({place})
+	}
+
 	render() {
 		return(
 			<>
@@ -47,7 +57,7 @@ class Host extends React.Component {
 							<hr />
 							<h2>Places I'm hosting</h2>
 							<div className="grid two">
-								{this.state.hosted.map((place, i) => <Thumbnail info={place} key={i} />)}
+								{this.state.hosted.map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i} />)}
 							</div>
 						</div>
 					</div>

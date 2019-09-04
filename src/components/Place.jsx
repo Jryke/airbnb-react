@@ -41,7 +41,8 @@ class Place extends React.Component {
 			reviews: 4,
 			img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 			location: 'Koh Samui, Thailand',
-			description: 'Stylish, tropical, luxurious, airy and absolute beach front, this villa combines form and function, enjoying magnificent views of Samui’s small islands and the sea beyond. With 520sqm of indoor/outdoor living space with 5 ensuite bedrooms, large living area, beachfront infinity pool, garden, air conditioned gym, professional pool table, bbq and Sala, this villa is perfect for up to 10 adults With 260sqm (2798sqfeet) of living space and 250sqm (2,700sqfeet) of outdoor space.'
+			description: 'Stylish, tropical, luxurious, airy and absolute beach front, this villa combines form and function, enjoying magnificent views of Samui’s small islands and the sea beyond. With 520sqm of indoor/outdoor living space with 5 ensuite bedrooms, large living area, beachfront infinity pool, garden, air conditioned gym, professional pool table, bbq and Sala, this villa is perfect for up to 10 adults With 260sqm (2798sqfeet) of living space and 250sqm (2,700sqfeet) of outdoor space.',
+			liked: true
 		},
 		amenities: [
 			{
@@ -98,11 +99,18 @@ class Place extends React.Component {
 		})
 	}
 
+	toggleLike = (e) => {
+		e.preventDefault()
+		let place = this.state.placeInfo
+		place.liked = !place.liked
+		this.setState({place})
+	}
+
 	render() {
 		return(
 			<>
 				<Nav user={this.state.user}/>
-				<Gallery pictures={this.state.pictures} selected={this.state.selected} changeSelected={this.changeSelected}/>
+				<Gallery pictures={this.state.pictures} selected={this.state.selected} changeSelected={this.changeSelected} info={this.state.placeInfo} toggleLike={this.toggleLike}/>
 				<div className="grid medium">
 					<div className="grid sidebar-right">
 						<div className="content">

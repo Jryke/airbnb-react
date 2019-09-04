@@ -11,18 +11,18 @@ class Bookings extends React.Component {
 			name: 'Tony',
 			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
 		},
-		upcomingTrips: {
-			name: 'Luxury Villa Indu Siam',
-			type: 'Entire Villa',
-			rooms: 3,
-			nights: 5,
-			price: 350,
-			reviews: 37,
-			location: 'Koh Samui, Thailand',
-			img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
-		},
-		pastTrips: [
+		trips: [
 			{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 3,
+				nights: 5,
+				price: 350,
+				reviews: 37,
+				location: 'Koh Samui, Thailand',
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
+				liked: true
+			},{
 				name: 'Villa Kelusa',
 				type: 'Entire Villa',
 				rooms: 6,
@@ -44,6 +44,14 @@ class Bookings extends React.Component {
 		],
 		currentPage: 'bookings'
 	}
+
+	toggleLike = (e, i) => {
+		e.preventDefault()
+		let place = this.state.trips[i]
+		place.liked = !place.liked
+		this.setState({place})
+	}
+
 	render() {
 		return(
 			<>
@@ -54,11 +62,11 @@ class Bookings extends React.Component {
 						<div class="content">
 							<h2>Upcoming Trips</h2>
 							<div class="grid two">
-								<Thumbnail info={this.state.upcomingTrips} />
+								{this.state.trips.map((trip, i) => i === 0 ? <Thumbnail info={trip} toggleLike={this.toggleLike} index={i} key={i}/> : null)}
 							</div>
 							<h2>Past Trips</h2>
 							<div class="grid two">
-							{this.state.pastTrips.map((place, i) => <Thumbnail key={i} info={place} />)}
+							{this.state.trips.map((place, i) => i === 0 ? null : <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
 							</div>
 						</div>
 					</div>

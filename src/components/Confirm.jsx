@@ -26,6 +26,14 @@ class Confirm extends React.Component {
 			nights: 3
 		}
 	}
+
+	toggleLike = (e) => {
+		e.preventDefault()
+		let place = this.state.place
+		place.liked = !place.liked
+		this.setState({place})
+	}
+
 	render() {
 		return(
 			<>
@@ -34,7 +42,7 @@ class Confirm extends React.Component {
 					<div className="grid sidebar-left">
 
 					<div className="sidebar">
-						<Thumbnail info={this.state.place}/>
+						<Thumbnail info={this.state.place} toggleLike={this.toggleLike}/>
 					</div>
 
 
