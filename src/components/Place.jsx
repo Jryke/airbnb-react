@@ -90,7 +90,11 @@ class Place extends React.Component {
 				date: '27 May 2019',
 				review: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.'
 			}
-		]
+		],
+		review:{
+			text: '',
+			rating: 0
+		}
 	}
 
 	changeSelected = (newSelected) => {
@@ -105,6 +109,19 @@ class Place extends React.Component {
 		place.liked = !place.liked
 		this.setState({place})
 	}
+
+	setRating = (index) => {
+		let ratingNumber = index + 1
+		console.log(ratingNumber)
+		this.setState({
+			review: {
+				text: this.state.review.text,
+				rating: ratingNumber
+			}
+		})
+	}
+
+	colorStars = (index) => index + 1 <= this.state.review.rating ? 'fas': 'far'
 
 	render() {
 		return(
@@ -152,18 +169,12 @@ class Place extends React.Component {
 										<label>Leave a review</label>
 										<textarea></textarea>
 										<div className="rating">
-											<i className="far fa-star"></i>
-											<i className="far fa-star"></i>
-											<i className="far fa-star"></i>
-											<i className="far fa-star"></i>
-											<i className="far fa-star"></i>
+											{[...Array(5)].map((n, i) => <i className={`${this.colorStars(i)} fa-star`} onClick={() => this.setRating(i)} index={n} key={i}></i>)}
 										</div>
 										<button className="primary small">Submit</button>
 									</div>
 								</form>
 								{this.state.reviews.map((review, i) => <Review key={i} review={review}/>)}
-
-
 							</div>
 						</div>
 						<div className="sidebar booking">
