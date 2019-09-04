@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Nav from './Nav.jsx'
 import Gallery from './Gallery.jsx'
 import Review from './Review.jsx'
@@ -39,6 +40,7 @@ class Place extends React.Component {
 			guests: 10,
 			price: 350,
 			reviews: 4,
+			rating: 4,
 			img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 			location: 'Koh Samui, Thailand',
 			description: 'Stylish, tropical, luxurious, airy and absolute beach front, this villa combines form and function, enjoying magnificent views of Samui’s small islands and the sea beyond. With 520sqm of indoor/outdoor living space with 5 ensuite bedrooms, large living area, beachfront infinity pool, garden, air conditioned gym, professional pool table, bbq and Sala, this villa is perfect for up to 10 adults With 260sqm (2798sqfeet) of living space and 250sqm (2,700sqfeet) of outdoor space.',
@@ -133,7 +135,9 @@ class Place extends React.Component {
 		})
 	}
 
-	colorStars = (index) => index + 1 <= this.state.review.rating ? 'fas': 'far'
+	colorStarsReviews = (index) => index + 1 <= this.state.review.rating ? 'fas': 'far'
+
+	colorStarsPlace = (index) => index + 1 <= this.state.placeInfo.rating ? 'fas': 'far'
 
 	render() {
 		return(
@@ -181,7 +185,7 @@ class Place extends React.Component {
 										<label>Leave a review</label>
 										<textarea></textarea>
 										<div className="rating">
-											{[...Array(5)].map((n, i) => <i className={`${this.colorStars(i)} fa-star`} onClick={() => this.setRating(i)} index={n} key={i}></i>)}
+											{[...Array(5)].map((n, i) => <i className={`${this.colorStarsReviews(i)} fa-star`} onClick={() => this.setRating(i)} index={n} key={i}></i>)}
 										</div>
 										<button className="primary small">Submit</button>
 									</div>
@@ -194,11 +198,10 @@ class Place extends React.Component {
 								<div className="content large">
 									<h3>${this.state.placeInfo.price}<small>per night</small></h3>
 									<small>
-										<i className="fas fa-star"></i>
-										<i className="fas fa-star"></i>
-										<i className="fas fa-star"></i>
-										<i className="fas fa-star"></i>
-										<i className="far fa-star"></i>
+										{[...Array(5)].map((n, i) => <i className={`${this.colorStarsPlace(i)} fa-star`} key={i}></i>)}
+
+
+
 										<span>{this.state.placeInfo.reviews} Reviews</span>
 									</small>
 									<form className="small">
@@ -214,7 +217,7 @@ class Place extends React.Component {
 											</select>
 										</div>
 										<div className="group">
-											<button className="secondary full">Book this place</button>
+											<Link to="/bookings"><button className="secondary full">Book this place</button></Link>
 										</div>
 									</form>
 								</div>
