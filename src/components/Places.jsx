@@ -14,7 +14,7 @@ class Places extends React.Component {
 			{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 3,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -22,7 +22,7 @@ class Places extends React.Component {
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 5,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -38,7 +38,7 @@ class Places extends React.Component {
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 1,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -46,7 +46,7 @@ class Places extends React.Component {
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 3,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -54,7 +54,31 @@ class Places extends React.Component {
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 4,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
+				liked: false
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 6,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
+				liked: false
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 2,
+				price: 350,
+				reviews: 37,
+				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
+				liked: false
+			},{
+				name: 'Luxury Villa Indu Siam',
+				type: 'Entire Villa',
+				rooms: 1,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -70,7 +94,7 @@ class Places extends React.Component {
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 5,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -78,35 +102,31 @@ class Places extends React.Component {
 			},{
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
-				rooms: 7,
+				rooms: 3,
 				price: 350,
 				reviews: 37,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
+			}
+		],
+		types: [
+			'All Types',
+			'Entire Villa',
+			'Shared Villa',
+			'Entire House',
+			'Shared House',
+			'Private Room'
+		],
+		organizeBy: [
+			{
+				name: 'Latest',
+				value: 'date'
 			},{
-				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 7,
-				price: 350,
-				reviews: 37,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
+				name: 'Price',
+				value: 'price'
 			},{
-				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 7,
-				price: 350,
-				reviews: 37,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 7,
-				price: 350,
-				reviews: 37,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
+				name: 'Rating',
+				value: 'rating'
 			}
 		],
 		inputValue: ''
@@ -134,30 +154,14 @@ class Places extends React.Component {
 				<Nav user={this.state.user} />
 				<div className="filters">
 					<select>
-						<option value="1">Rooms: 1</option>
-						<option value="1">Rooms: 2</option>
-						<option value="1">Rooms: 3</option>
-						<option value="1">Rooms: 4</option>
-						<option value="1">Rooms: 5</option>
-						<option value="1">Rooms: 6</option>
-						<option value="1">Rooms: 7</option>
-						<option value="1">Rooms: 8</option>
-						<option value="1">Rooms: 9</option>
-						<option value="1">Rooms: 10</option>
+						{[...Array(10)].map((n, i) => <option value={i + 1} key={i}>Rooms: {i + 1}</option>)}
 					</select>
 					<select>
-						<option value="1">All Types</option>
-						<option value="1">Entire Villa</option>
-						<option value="1">Shared Villa</option>
-						<option value="1">Entire House</option>
-						<option value="1">Shared House</option>
-						<option value="1">Private Room</option>
+						{this.state.types.map((type, i) => <option value="1" key={i}>{type}</option>)}
 					</select>
 					<input type="number" placeholder="max price" />
 					<select>
-						<option value="date">Latest</option>
-						<option value="price">Price</option>
-						<option value="rating">Rating</option>
+						{this.state.organizeBy.map((option, i) => <option value="option.value" key={i}>{option.name}</option>)}
 					</select>
 					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setInputValue(e)} value={this.state.inputValue}/>
 				</div>
