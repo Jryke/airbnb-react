@@ -141,27 +141,78 @@ class Places extends React.Component {
 				value: 'rating'
 			}
 		],
-		inputValue: '',
+		filters: {
+			rooms: 0,
+			type: 'All Types',
+			price: 0,
+			name: '',
+		}
 	}
 
-	setInputValue = (e) => {
-		let searchText = e.target.value
+	setRoomsFilter = (e) => {
+		let selectedRooms = e.target.value
 		this.setState({
-			inputValue: searchText
+			filters: {
+				rooms: selectedRooms,
+				type: this.state.filters.type,
+				price: this.state.filters.price,
+				name: this.state.filters.name
+			}
 		})
 	}
 
-	filterPlaces = () => this.state.info.filter(place => place.name.toLowerCase().includes(this.state.inputValue.toLowerCase()))
-
-	filterByRooms = (e) => {
-		let filteredRooms = this.state.info.filter(place => place.rooms === Number(e.target.value))
-		console.log(filteredRooms)
-		console.log(e.target)
-		return filteredRooms
+	setTypeFilter = (e) => {
+		let selectedType = e.target.value
+		this.setState({
+			filters: {
+				rooms: this.state.filters.rooms,
+				type: selectedType,
+				price: this.state.filters.price,
+				name: this.state.filters.name
+			}
+		})
 	}
 
-	filter = (places, filter) => {
+	setPriceFilter = (e) => {
+		let selectedPrice = e.target.value
+		this.setState({
+			filters: {
+				rooms: this.state.filters.rooms,
+				type: this.state.filters.type,
+				price: selectedPrice,
+				name: this.state.filters.name
+			}
+		})
+	}
 
+	setNameFilter = (e) => {
+		let inputValue = e.target.value
+		this.setState({
+			filters: {
+				rooms: this.state.filters.rooms,
+				type: this.state.filters.type,
+				price: this.state.filters.price,
+				name: inputValue
+			}
+		})
+
+	}
+
+	filterAll = () => {
+		let filteredPlaces = this.state.info.map(el => el)
+		if (this.state.filters.name) {
+			filteredPlaces = filteredPlaces.filter(place => place.name.toLowerCase().includes(this.state.filters.name.toLowerCase()))
+		}
+		if (this.state.filters.rooms > 0) {
+			filteredPlaces = filteredPlaces.filter(place => place.rooms >= this.state.filters.rooms)
+		}
+		if (this.state.filters.type !== 'All Types') {
+			filteredPlaces = filteredPlaces.filter(place => place.type === this.state.filters.type)
+		}
+		if (this.state.filters.price > 0) {
+			filteredPlaces = filteredPlaces.filter(place => place.price <= this.state.filters.price)
+		}
+		return filteredPlaces
 	}
 
 	toggleLike = (e, i) => {
@@ -176,21 +227,21 @@ class Places extends React.Component {
 			<>
 				<Nav user={this.state.user} />
 				<div className="filters">
-					<select onChange={(e) => this.filterByRooms(e)}>
+					<select onChange={(e) => this.setRoomsFilter(e)}>
 						<option>Rooms:</option>
 						{[...Array(10)].map((n, i) => <option value={i + 1} key={i}>Rooms: {i + 1}</option>)}
 					</select>
-					<select>
-						{this.state.types.map((type, i) => <option value="1" key={i}>{type}</option>)}
+					<select onChange={(e) => this.setTypeFilter(e)}>
+						{this.state.types.map((type, i) => <option key={i}>{type}</option>)}
 					</select>
-					<input type="number" placeholder="max price" />
+					<input type="number" placeholder="max price" onChange={(e) => this.setPriceFilter(e)}/>
 					<select>
 						{this.state.organizeBy.map((option, i) => <option value="option.value" key={i}>{option.name}</option>)}
 					</select>
-					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setInputValue(e)} value={this.state.inputValue}/>
+					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setNameFilter(e)} value={this.state.inputValue}/>
 				</div>
 				<div className="grid five large">
-					{this.filterPlaces().map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
+					{this.filterAll().map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
 				</div>
 			</>
 		)
