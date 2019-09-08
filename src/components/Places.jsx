@@ -15,70 +15,70 @@ class Places extends React.Component {
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
 				rooms: 3,
-				price: 350,
+				price: 1000,
 				reviews: 37,
 				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false,
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Shared Villa',
 				rooms: 5,
-				price: 350,
+				price: 550,
 				reviews: 37,
 				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: true
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Entire House',
 				rooms: 7,
-				price: 350,
+				price: 600,
 				reviews: 37,
 				rating: 1,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 1,
-				price: 350,
+				type: 'Shared House',
+				rooms: 4,
+				price: 200,
 				reviews: 37,
 				rating: 3,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Shared Villa',
 				rooms: 10,
-				price: 350,
+				price: 400,
 				reviews: 37,
 				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: true
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 4,
-				price: 350,
+				type: 'Private Room',
+				rooms: 1,
+				price: 100,
 				reviews: 37,
 				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Entire House',
 				rooms: 6,
-				price: 350,
+				price: 750,
 				reviews: 37,
 				rating: 1,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Shared Villa',
 				rooms: 2,
-				price: 350,
+				price: 650,
 				reviews: 37,
 				rating: 4,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
@@ -87,32 +87,32 @@ class Places extends React.Component {
 				name: 'Luxury Villa Indu Siam',
 				type: 'Entire Villa',
 				rooms: 9,
-				price: 350,
+				price: 900,
 				reviews: 37,
 				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Entire House',
 				rooms: 7,
-				price: 350,
+				price: 800,
 				reviews: 37,
 				rating: 1,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Shared House',
 				rooms: 8,
-				price: 350,
+				price: 250,
 				reviews: 37,
 				rating: 5,
 				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 				liked: false
 			},{
 				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
+				type: 'Shared Villa',
 				rooms: 3,
 				price: 350,
 				reviews: 37,
@@ -132,7 +132,7 @@ class Places extends React.Component {
 		organizeBy: [
 			{
 				name: 'Latest',
-				value: 'date'
+				value: 'latest'
 			},{
 				name: 'Price',
 				value: 'price'
@@ -141,12 +141,13 @@ class Places extends React.Component {
 				value: 'rating'
 			}
 		],
+		selectedOrganization: 'Latest',
 		filters: {
 			rooms: 0,
 			type: 'All Types',
 			price: 0,
 			name: '',
-		}
+		},
 	}
 
 	setRoomsFilter = (e) => {
@@ -195,7 +196,6 @@ class Places extends React.Component {
 				name: inputValue
 			}
 		})
-
 	}
 
 	filterAll = () => {
@@ -213,6 +213,23 @@ class Places extends React.Component {
 			filteredPlaces = filteredPlaces.filter(place => place.price <= this.state.filters.price)
 		}
 		return filteredPlaces
+	}
+
+	setOrganizeBy = (e) => {
+		let selected = e.target.value
+		this.setState({
+			selectedOrganization : selected
+		})
+	}
+
+	sortPlaces = () => {
+		if (this.state.selectedOrganization === 'price') {
+			return this.filterAll().sort((a,b) => a.price < b.price ? -1 : a.price > b.price ? 1 : 0)
+		} else if (this.state.selectedOrganization === 'rating') {
+			return this.filterAll().sort((a,b) => b.rating - a.rating)
+		} else {
+			return this.filterAll()
+		}
 	}
 
 	toggleLike = (e, i) => {
@@ -235,13 +252,13 @@ class Places extends React.Component {
 						{this.state.types.map((type, i) => <option key={i}>{type}</option>)}
 					</select>
 					<input type="number" placeholder="max price" onChange={(e) => this.setPriceFilter(e)}/>
-					<select>
-						{this.state.organizeBy.map((option, i) => <option value="option.value" key={i}>{option.name}</option>)}
+					<select onChange={(e) => this.setOrganizeBy(e)}>
+						{this.state.organizeBy.map((option, i) => <option value={option.value} key={i}>{option.name}</option>)}
 					</select>
 					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setNameFilter(e)} value={this.state.inputValue}/>
 				</div>
 				<div className="grid five large">
-					{this.filterAll().map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
+					{this.sortPlaces().map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
 				</div>
 			</>
 		)
