@@ -124,13 +124,43 @@ class Place extends React.Component {
 		this.setState({place})
 	}
 
+	setReview = (e) => {
+		let newReview = e.target.value
+		this.setState({
+			review: {
+				text: newReview,
+				rating: this.state.review.rating
+			}
+		})
+	}
+
 	setRating = (index) => {
 		let ratingNumber = index + 1
-		console.log(ratingNumber)
 		this.setState({
 			review: {
 				text: this.state.review.text,
 				rating: ratingNumber
+			}
+		})
+	}
+
+	submitReview = (e) => {
+		e.preventDefault()
+		let newReview = {
+			name: this.state.user.name,
+			avatar: this.state.user.avatar,
+			date: `${new Date()}`,
+			review: {
+				text: this.state.review.text,
+				rating: this.state.review.rating
+			}
+		}
+		let newReviewsArr = [newReview, ...this.state.reviews]
+		this.setState({
+			reviews: newReviewsArr,
+			review:{
+				text: '',
+				rating: 0
 			}
 		})
 	}
@@ -180,10 +210,10 @@ class Place extends React.Component {
 							</div>
 							<div className="reviews">
 								<h2>{this.state.placeInfo.reviews} Reviews</h2>
-								<form>
+								<form onSubmit={(e) => this.submitReview(e)}>
 									<div className="group">
 										<label>Leave a review</label>
-										<textarea></textarea>
+										<textarea onChange={(e) => this.setReview(e)} value={this.state.review.text}></textarea>
 										<div className="rating">
 											{[...Array(5)].map((n, i) => <i className={`${this.colorStarsReviews(i)} fa-star`} onClick={() => this.setRating(i)} index={n} key={i}></i>)}
 										</div>
