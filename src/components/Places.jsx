@@ -12,14 +12,7 @@ class Places extends React.Component {
 			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
 		},
 		places: [],
-		types: [
-			'All Types',
-			'Entire Villa',
-			'Shared Villa',
-			'Entire House',
-			'Shared House',
-			'Private Room'
-		],
+		types: [],
 		organizeBy: [
 			{
 				name: 'Latest',
@@ -46,6 +39,14 @@ class Places extends React.Component {
 		.then(res => {
 			this.setState({
 				places: res.data
+			})
+		})
+		.catch(err => console.log(err))
+		axios.get('http://localhost:4000/types')
+		.then(res => {
+			res.data.unshift('All Types')
+			this.setState({
+				types: res.data
 			})
 		})
 		.catch(err => console.log(err))
