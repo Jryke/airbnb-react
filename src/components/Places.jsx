@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import Nav from './Nav.jsx'
 import Thumbnail from './Thumbnail.jsx'
 import '../styles/filters.css'
@@ -10,117 +11,7 @@ class Places extends React.Component {
 			name: 'Tony',
 			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
 		},
-		info: [
-			{
-				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 3,
-				price: 1000,
-				reviews: 37,
-				rating: 5,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false,
-			},{
-				name: 'Villa On The Beach',
-				type: 'Shared Villa',
-				rooms: 5,
-				price: 550,
-				reviews: 10,
-				rating: 4,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: true
-			},{
-				name: 'Home in Lamai',
-				type: 'Entire House',
-				rooms: 7,
-				price: 600,
-				reviews: 33,
-				rating: 1,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Cheap And Near The Beach!',
-				type: 'Shared House',
-				rooms: 4,
-				price: 200,
-				reviews: 16,
-				rating: 3,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Large Samui Villa',
-				type: 'Shared Villa',
-				rooms: 10,
-				price: 400,
-				reviews: 8,
-				rating: 4,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: true
-			},{
-				name: 'Jeerwan House',
-				type: 'Private Room',
-				rooms: 1,
-				price: 100,
-				reviews: 2,
-				rating: 5,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Baan Thai',
-				type: 'Entire House',
-				rooms: 6,
-				price: 750,
-				reviews: 27,
-				rating: 1,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Small Villa For Travelers',
-				type: 'Shared Villa',
-				rooms: 2,
-				price: 650,
-				reviews: 21,
-				rating: 4,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Luxury Villa In Koh Phangan',
-				type: 'Entire Villa',
-				rooms: 9,
-				price: 900,
-				reviews: 43,
-				rating: 5,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Beach House For Large Group',
-				type: 'Entire House',
-				rooms: 7,
-				price: 800,
-				reviews: 13,
-				rating: 1,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Backpacker Hostel',
-				type: 'Shared House',
-				rooms: 8,
-				price: 250,
-				reviews: 26,
-				rating: 5,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			},{
-				name: 'Beach Paradise Villa',
-				type: 'Shared Villa',
-				rooms: 3,
-				price: 350,
-				reviews: 10,
-				rating: 2,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-				liked: false
-			}
-		],
+		places: [],
 		types: [
 			'All Types',
 			'Entire Villa',
@@ -143,18 +34,29 @@ class Places extends React.Component {
 		],
 		selectedOrganization: 'Latest',
 		filters: {
-			rooms: 0,
+			bedrooms: 0,
 			type: 'All Types',
 			price: 0,
 			name: '',
 		},
 	}
 
-	setRoomsFilter = (e) => {
+	componentWillMount() {
+		axios.get('http://localhost:4000/places')
+		.then(res => {
+			console.log(res.data)
+			this.setState({
+				places: res.data
+			})
+		})
+		.catch(err => console.log(err))
+	}
+
+	setBedroomsFilter = (e) => {
 		let selectedRooms = e.target.value
 		this.setState({
 			filters: {
-				rooms: selectedRooms,
+				bedrooms: selectedRooms,
 				type: this.state.filters.type,
 				price: this.state.filters.price,
 				name: this.state.filters.name
@@ -166,7 +68,7 @@ class Places extends React.Component {
 		let selectedType = e.target.value
 		this.setState({
 			filters: {
-				rooms: this.state.filters.rooms,
+				bedrooms: this.state.filters.bedrooms,
 				type: selectedType,
 				price: this.state.filters.price,
 				name: this.state.filters.name
@@ -199,7 +101,7 @@ class Places extends React.Component {
 	}
 
 	filterAll = () => {
-		let filteredPlaces = this.state.info.map(el => el)
+		let filteredPlaces = this.state.places.map(el => el)
 		if (this.state.filters.name) {
 			filteredPlaces = filteredPlaces.filter(place => place.name.toLowerCase().includes(this.state.filters.name.toLowerCase()))
 		}
@@ -234,7 +136,7 @@ class Places extends React.Component {
 
 	toggleLike = (e, i) => {
 		e.preventDefault()
-		let place = this.state.info[i]
+		let place = this.state.places[i]
 		place.liked = !place.liked
 		this.setState({place})
 	}
@@ -244,7 +146,7 @@ class Places extends React.Component {
 			<>
 				<Nav user={this.state.user} />
 				<div className="filters">
-					<select onChange={(e) => this.setRoomsFilter(e)}>
+					<select onChange={(e) => this.setBedroomsFilter(e)}>
 						<option>Rooms:</option>
 						{[...Array(10)].map((n, i) => <option value={i + 1} key={i}>Rooms: {i + 1}</option>)}
 					</select>
