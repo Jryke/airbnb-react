@@ -44,7 +44,6 @@ class Places extends React.Component {
 	componentWillMount() {
 		axios.get('http://localhost:4000/places')
 		.then(res => {
-			console.log(res.data)
 			this.setState({
 				places: res.data
 			})
