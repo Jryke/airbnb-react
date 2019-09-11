@@ -30,26 +30,25 @@ class Places extends React.Component {
 			bedrooms: 0,
 			type: 'All Types',
 			price: 0,
-			name: '',
+			title: '',
 		},
 	}
 
 	componentWillMount() {
 		axios.get('http://localhost:4000/places')
-		.then(res => {
-			this.setState({
-				places: res.data
+			.then(res => {
+				this.setState({
+					places: res.data
+				})
 			})
-		})
-		.catch(err => console.log(err))
+			.catch(err => console.log(err))
 		axios.get('http://localhost:4000/types')
-		.then(res => {
-			res.data.unshift('All Types')
-			this.setState({
-				types: res.data
+			.then(res => {
+				this.setState({
+					types: res.data
+				})
 			})
-		})
-		.catch(err => console.log(err))
+			.catch(err => console.log(err))
 	}
 
 	setBedroomsFilter = (e) => {
@@ -59,9 +58,10 @@ class Places extends React.Component {
 				bedrooms: selectedRooms,
 				type: this.state.filters.type,
 				price: this.state.filters.price,
-				name: this.state.filters.name
+				title: this.state.filters.title,
 			}
-		})
+		},
+		this.populatePlaces)
 	}
 
 	setTypeFilter = (e) => {
@@ -71,21 +71,23 @@ class Places extends React.Component {
 				bedrooms: this.state.filters.bedrooms,
 				type: selectedType,
 				price: this.state.filters.price,
-				name: this.state.filters.name
+				title: this.state.filters.title,
 			}
-		})
+		},
+		this.populatePlaces)
 	}
 
 	setPriceFilter = (e) => {
 		let selectedPrice = e.target.value
 		this.setState({
 			filters: {
-				rooms: this.state.filters.rooms,
+				bedrooms: this.state.filters.bedrooms,
 				type: this.state.filters.type,
 				price: selectedPrice,
-				name: this.state.filters.name
+				title: this.state.filters.title,
 			}
-		})
+		},
+		this.populatePlaces)
 	}
 
 	setNameFilter = (e) => {
@@ -95,24 +97,46 @@ class Places extends React.Component {
 				rooms: this.state.filters.rooms,
 				type: this.state.filters.type,
 				price: this.state.filters.price,
-				name: inputValue
+				title: inputValue
 			}
 		})
 	}
 
-	filterAll = () => {
-		let filteredPlaces = this.state.places.map(el => el)
-		if (this.state.filters.name) {
-			filteredPlaces = filteredPlaces.filter(place => place.name.toLowerCase().includes(this.state.filters.name.toLowerCase()))
-		}
-		if (this.state.filters.rooms > 0) {
-			filteredPlaces = filteredPlaces.filter(place => place.rooms >= this.state.filters.rooms)
+	populatePlaces = () => {
+		// save selected filter values in state
+		let filtersArr = []
+		if (this.state.filters.bedrooms > 0) {
+			filtersArr.push(`min_rooms=${this.state.filters.bedrooms}`)
 		}
 		if (this.state.filters.type !== 'All Types') {
-			filteredPlaces = filteredPlaces.filter(place => place.type === this.state.filters.type)
+			filtersArr.push(`type=${this.state.filters.type}`)
 		}
 		if (this.state.filters.price > 0) {
-			filteredPlaces = filteredPlaces.filter(place => place.price <= this.state.filters.price)
+			filtersArr.push(`max_price=${this.state.filters.price}`)
+		}
+		// create express query based on selected filters
+		let query = ''
+		if (filtersArr.length === 1) {
+			query = `?${filtersArr[0]}`
+		} else if (filtersArr.length > 1) {
+			query = `?${filtersArr[0]}`
+			filtersArr.slice(1).forEach(filter => query = query + `&${filter}`)
+		}
+		// make query, set state with response
+		axios.get(`http://localhost:4000/places${query}`)
+			.then(res => {
+				console.log(res.data)
+				this.setState({
+					places: res.data
+				})
+			})
+			.catch(err => console.log(err))
+	}
+
+	filterPlaces = () => {
+		let filteredPlaces = this.state.places.slice()
+		if (this.state.filters.title) {
+			filteredPlaces = filteredPlaces.filter(place => place.title.toLowerCase().includes(this.state.filters.title.toLowerCase()))
 		}
 		return filteredPlaces
 	}
@@ -126,11 +150,11 @@ class Places extends React.Component {
 
 	sortPlaces = () => {
 		if (this.state.selectedOrganization === 'price') {
-			return this.filterAll().sort((a,b) => a.price < b.price ? -1 : a.price > b.price ? 1 : 0)
+			return this.filterPlaces().sort((a,b) => a.price < b.price ? -1 : a.price > b.price ? 1 : 0)
 		} else if (this.state.selectedOrganization === 'rating') {
-			return this.filterAll().sort((a,b) => b.rating - a.rating)
+			return this.filterPlaces().sort((a,b) => b.rating - a.rating)
 		} else {
-			return this.filterAll()
+			return this.filterPlaces()
 		}
 	}
 
@@ -147,11 +171,12 @@ class Places extends React.Component {
 				<Nav user={this.state.user} />
 				<div className="filters">
 					<select onChange={(e) => this.setBedroomsFilter(e)}>
-						<option>Rooms:</option>
+						<option value='0'>Rooms:</option>
 						{[...Array(10)].map((n, i) => <option value={i + 1} key={i}>Rooms: {i + 1}</option>)}
 					</select>
 					<select onChange={(e) => this.setTypeFilter(e)}>
-						{this.state.types.map((type, i) => <option key={i}>{type}</option>)}
+						<option value=''>All Types</option>
+						{this.state.types.map((type, i) => <option key={i} value={type._id}>{type.name}</option>)}
 					</select>
 					<input type="number" placeholder="max price" onChange={(e) => this.setPriceFilter(e)}/>
 					<select onChange={(e) => this.setOrganizeBy(e)}>
