@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 import Nav from './Nav.jsx'
 import Gallery from './Gallery.jsx'
 import Review from './Review.jsx'
@@ -16,99 +17,31 @@ class Place extends React.Component {
 			name: 'Tony',
 			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
 		},
-		host: {
-			name: 'Kitty',
-			avatar: 'https://randomuser.me/api/portraits/women/2.jpg'
-		},
-		pictures: [
-			'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-			'https://q-ak.bstatic.com/images/hotel/max1280x900/186/186223171.jpg',
-			'https://r-ak.bstatic.com/images/hotel/max1280x900/186/186223174.jpg',
-			'https://r-ak.bstatic.com/images/hotel/max1280x900/186/186223178.jpg',
-			'https://q-ak.bstatic.com/images/hotel/max1280x900/186/186223180.jpg',
-			'https://q-ak.bstatic.com/images/hotel/max1280x900/186/186223186.jpg',
-			'https://r-ak.bstatic.com/images/hotel/max1280x900/186/186223190.jpg',
-			'https://q-ak.bstatic.com/images/hotel/max1280x900/186/186223195.jpg',
-			'https://q-ak.bstatic.com/images/hotel/max1280x900/186/186223199.jpg'
-		],
-		selected: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
 		placeInfo: {
-			name: 'Luxury Villa Indu Siam',
-			type: 'Entire Villa',
-			rooms: 7,
-			bathrooms: 6,
-			guests: 10,
-			price: 350,
-			reviews: 4,
-			rating: 4,
-			img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg',
-			location: 'Koh Samui, Thailand',
-			description: 'Stylish, tropical, luxurious, airy and absolute beach front, this villa combines form and function, enjoying magnificent views of Samui’s small islands and the sea beyond. With 520sqm of indoor/outdoor living space with 5 ensuite bedrooms, large living area, beachfront infinity pool, garden, air conditioned gym, professional pool table, bbq and Sala, this villa is perfect for up to 10 adults With 260sqm (2798sqfeet) of living space and 250sqm (2,700sqfeet) of outdoor space.',
-			liked: true
+			images: [],
+			amenities: [],
+			type: {},
+			host: {},
+			reviews: []
 		},
-		amenities: [
-			{
-				amenity: 'Kitchen',
-				className: 'fas fa-utensils'
-			},{
-				amenity: 'Gym',
-				className: 'fas fa-dumbbell'
-			},{
-				amenity: 'Wi-Fi',
-				className: 'fas fa-wifi'
-			},{
-				amenity: 'Iron',
-				className: 'fas fa-tshirt'
-			},{
-				amenity: 'Swimming Pool',
-				className: 'fas fa-swimmer'
-			},{
-				amenity: 'Air Conditioning',
-				className: 'fas fa-wind'
-			},{
-				amenity: 'TV',
-				className: 'fas fa-tv'
-			}
-		],
-		reviews: [
-			{
-				name: 'Amanda',
-				avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
-				date: '27 July 2019',
-				review: {
-					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
-					rating: 5
-				}
-			},{
-				name: 'John',
-				avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-				date: '22 July 2019',
-				review: {
-					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
-					rating: 3
-				}
-			},{
-				name: 'Sam',
-				avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
-				date: '4 July 2019',
-				review: {
-					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
-					rating: 1
-				}
-			},{
-				name: 'Ella',
-				avatar: 'https://randomuser.me/api/portraits/women/7.jpg',
-				date: '27 May 2019',
-				review: {
-					text: 'It was beyond my imagination that my AirBnB experience could be better than a 5 star resort hotel. It is one of the most beautiful villa that I have had stayed so far in the many countries travelled so far. The pictures have not sufficiently described the details of the place.',
-					rating: 4
-				}
-			}
-		],
 		review:{
 			text: '',
 			rating: 0
-		}
+		},
+		selected: ''
+	}
+
+	componentWillMount() {
+		axios.get(`http://localhost:4000/places/5d720f54913f9d03fe347c41`)
+			.then(res => {
+				console.log(res.data)
+				// res.data.type = res.data.type.name
+				this.setState({
+					placeInfo : res.data,
+					selected: res.data.images[0]
+				})
+			})
+			.catch(err => console.log(err))
 	}
 
 	changeSelected = (newSelected) => {
@@ -146,23 +79,26 @@ class Place extends React.Component {
 
 	submitReview = (e) => {
 		e.preventDefault()
-		let newReview = {
-			name: this.state.user.name,
-			avatar: this.state.user.avatar,
-			date: `${new Date()}`,
-			review: {
-				text: this.state.review.text,
+		if (this.state.review.text && this.state.review.rating > 0) {
+			let newReview = {
+				author: {
+					avatar: this.state.user.avatar,
+					name: this.state.user.name,
+				},
+				content: this.state.review.text,
+				date: `${new Date()}`,
 				rating: this.state.review.rating
 			}
+			// change this to an axios post, then get to set state
+			let newReviewsArr = [newReview, ...this.state.placeInfo.reviews]
+			this.setState({
+				placeInfo: Object.assign({}, this.state.placeInfo, { reviews: newReviewsArr }),
+				review: {
+					text: '',
+					rating: 0
+				}
+			})
 		}
-		let newReviewsArr = [newReview, ...this.state.reviews]
-		this.setState({
-			reviews: newReviewsArr,
-			review:{
-				text: '',
-				rating: 0
-			}
-		})
 	}
 
 	colorStarsReviews = (index) => index + 1 <= this.state.review.rating ? 'fas': 'far'
@@ -173,26 +109,26 @@ class Place extends React.Component {
 		return(
 			<>
 				<Nav user={this.state.user}/>
-				<Gallery pictures={this.state.pictures} selected={this.state.selected} changeSelected={this.changeSelected} info={this.state.placeInfo} toggleLike={this.toggleLike}/>
+				<Gallery pictures={this.state.placeInfo.images} selected={this.state.selected} changeSelected={this.changeSelected} info={this.state.placeInfo} toggleLike={this.toggleLike}/>
 				<div className="grid medium">
 					<div className="grid sidebar-right">
 						<div className="content">
-							<h1>{this.state.placeInfo.name}</h1>
+							<h1>{this.state.placeInfo.title}</h1>
 							<small>
 								<i className="fas fa-map-marker-alt"></i>
-								<span>{this.state.placeInfo.location}</span>
+								<span>{`${this.state.placeInfo.city}, ${this.state.placeInfo.country}`}</span>
 							</small>
 							<div className="user">
-								<div className="avatar" style={{backgroundImage: `url(${this.state.host.avatar})`}}></div>
+								<div className="avatar" style={{backgroundImage: `url(${this.state.placeInfo.host.avatar})`}}></div>
 								<div className="name">
 									<small>Hosted by</small>
-									<span>{this.state.host.name}</span>
+									<span>{this.state.placeInfo.host.name}</span>
 								</div>
 							</div>
 							<div className="card specs">
 								<div className="content">
 									<ul className="grid two">
-										<li><i className="fas fa-fw fa-home"></i>{this.state.placeInfo.type}</li>
+										<li><i className="fas fa-fw fa-home"></i>{this.state.placeInfo.type.name}</li>
 										<li><i className="fas fa-fw fa-user-friends"></i>{this.state.placeInfo.guests} guests</li>
 										<li><i className="fas fa-fw fa-bed"></i>{this.state.placeInfo.rooms} bedrooms</li>
 										<li><i className="fas fa-fw fa-bath"></i>{this.state.placeInfo.bathrooms} baths</li>
@@ -204,12 +140,12 @@ class Place extends React.Component {
 							<div className="card specs">
 								<div className="content">
 									<ul className="grid two">
-									{this.state.amenities.map((a, i) => <li key={i}><i className={a.className}></i>{a.amenity}</li>)}
+									{this.state.placeInfo.amenities.map((a, i) => <li key={i}><i className={`fas fa-${a.icon}`}></i>{a.name}</li>)}
 									</ul>
 								</div>
 							</div>
 							<div className="reviews">
-								<h2>{this.state.placeInfo.reviews} Reviews</h2>
+								<h2>{this.state.placeInfo.reviews.length} Reviews</h2>
 								<form onSubmit={(e) => this.submitReview(e)}>
 									<div className="group">
 										<label>Leave a review</label>
@@ -220,7 +156,7 @@ class Place extends React.Component {
 										<button className="primary small">Submit</button>
 									</div>
 								</form>
-								{this.state.reviews.map((review, i) => <Review key={i} review={review} />)}
+								{this.state.placeInfo.reviews.map((review, i) => <Review key={i} review={review} />)}
 							</div>
 						</div>
 						<div className="sidebar booking">
@@ -229,7 +165,7 @@ class Place extends React.Component {
 									<h3>${this.state.placeInfo.price}<small>per night</small></h3>
 									<small>
 										{[...Array(5)].map((n, i) => <i className={`${this.colorStarsPlace(i)} fa-star`} key={i}></i>)}
-										<span>{this.state.placeInfo.reviews} Reviews</span>
+										<span>{this.state.placeInfo.reviews.length} Reviews</span>
 									</small>
 									<form className="small">
 										<div className="group">
