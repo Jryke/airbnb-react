@@ -103,7 +103,7 @@ class Places extends React.Component {
 	}
 
 	populatePlaces = () => {
-		// save selected filter values in state
+		// access filter values in state, use them to set express queries
 		let filtersArr = []
 		if (this.state.filters.bedrooms > 0) {
 			filtersArr.push(`min_rooms=${this.state.filters.bedrooms}`)
@@ -114,7 +114,7 @@ class Places extends React.Component {
 		if (this.state.filters.price > 0) {
 			filtersArr.push(`max_price=${this.state.filters.price}`)
 		}
-		// create express query based on selected filters
+		// create single query for all filters to use with express
 		let query = ''
 		if (filtersArr.length === 1) {
 			query = `?${filtersArr[0]}`
@@ -125,7 +125,6 @@ class Places extends React.Component {
 		// make query, set state with response
 		axios.get(`http://localhost:4000/places${query}`)
 			.then(res => {
-				console.log(res.data)
 				this.setState({
 					places: res.data
 				})
