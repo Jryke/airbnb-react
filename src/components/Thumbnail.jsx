@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import '../styles/cards.css'
 
 class Thumbnail extends React.Component {
@@ -29,7 +28,7 @@ class Thumbnail extends React.Component {
 
 	render() {
 		return(
-			<Link className="card link" to="/Place">
+			<>
 				<div className="image" style={{backgroundImage: `url(${this.props.info.image})`}}>
 					<button className="icon" onClick={(e) => this.props.toggleLike(e, this.props.index)}>
 						<i className={`${this.setHeartClass()} fa-heart`}></i>
@@ -46,7 +45,7 @@ class Thumbnail extends React.Component {
 					</span>
 					{this.renderDates()}
 				</div>
-			</Link>
+			</>
 		)
 	}
 }

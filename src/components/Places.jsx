@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import Nav from './Nav.jsx'
 import Thumbnail from './Thumbnail.jsx'
@@ -184,7 +185,7 @@ class Places extends React.Component {
 					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setNameFilter(e)} value={this.state.inputValue}/>
 				</div>
 				<div className="grid five large">
-					{this.sortPlaces().map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i}/>)}
+					{this.sortPlaces().map((place, i) => <Link className="card link" to={`/Place/${place._id}`} key={i}><Thumbnail info={place} toggleLike={this.toggleLike} index={i} /></Link>)}
 				</div>
 			</>
 		)
