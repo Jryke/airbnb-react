@@ -35,13 +35,13 @@ class Thumbnail extends React.Component {
 					</button>
 				</div>
 				<div className="content">
-					<small className="meta">{this.props.info.type} • {this.props.info.bedrooms} {this.renderRooms()}</small>
+					<small className="meta">{this.props.info.type.name} • {this.props.info.bedrooms} {this.renderRooms()}</small>
 					<h2>{this.props.info.title}</h2>
 					{this.renderLocation()}
 					<span className="price">${this.props.info.price}/night</span>
 					<span className="rating">
 						{[...Array(5)].map((n, i) => <i className={`${this.colorStars(i)} fa-star`} key={i}></i>)}
-						<span>{this.props.info.reviews} Reviews</span>
+						<span>{this.props.info.reviews.length} Reviews</span>
 					</span>
 					{this.renderDates()}
 				</div>

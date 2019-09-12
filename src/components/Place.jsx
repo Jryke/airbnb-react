@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+// import {Link} from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
@@ -35,7 +35,8 @@ class Place extends React.Component {
 		dates: {
 			startDate: moment()._d,
 			endDate: moment().add(1, 'week')._d
-		}
+		},
+		guests: 0
 	}
 
 	componentWillMount() {
@@ -49,8 +50,6 @@ class Place extends React.Component {
 				})
 			})
 			.catch(err => console.log(err))
-			console.log(moment())
-			console.log(new Date())
 	}
 
 	changeSelected = (newSelected) => {
@@ -118,6 +117,23 @@ class Place extends React.Component {
 		let dates = this.state.dates
 		dates[field] = date
 		this.setState({dates})
+	}
+
+	selectGuests = (e) => {
+		let guests = Number(e.target.value[0])
+		this.setState({guests})
+	}
+
+	goToConfirm = (e) => {
+		e.preventDefault()
+		this.props.history.push({
+			pathname: `/confirm/${this.state.placeInfo._id}`,
+			place: this.state.placeInfo,
+			dates: this.state.dates,
+			user: this.state.user,
+			guests: this.state.guests,
+			handleChange: this.handleChange
+		})
 	}
 
 	render() {
@@ -190,12 +206,12 @@ class Place extends React.Component {
 										</div>
 										<div className="group">
 											<label>Guests</label>
-											<select>
+											<select onChange={this.selectGuests}>
 												{[...Array(this.state.placeInfo.guests)].map((n, i) => <option key={i}>{i === 0 ?'1 guest' :`${i + 1} guests`}</option>)}
 											</select>
 										</div>
 										<div className="group">
-											<Link to="/confirm"><button className="secondary full">Book this place</button></Link>
+											<button className="secondary full" onClick={(e) => this.goToConfirm(e)}>Book this place</button>
 										</div>
 									</form>
 								</div>
