@@ -33,17 +33,16 @@ class Place extends React.Component {
 		},
 		selected: '',
 		dates: {
-			startDate: moment()._d,
-			endDate: moment().add(1, 'week')._d
+			startDate: null,
+			endDate: null
 		},
+		buttonDisabled: true,
 		guests: 0
 	}
 
 	componentWillMount() {
 		axios.get(`http://localhost:4000/places/${this.props.match.params.id}`)
 			.then(res => {
-				// console.log(res.data)
-				// res.data.type = res.data.type.name
 				this.setState({
 					placeInfo : res.data,
 					selected: res.data.images[0]
@@ -98,9 +97,11 @@ class Place extends React.Component {
 				rating: this.state.review.rating
 			}
 			// change this to an axios post, then get to set state
+			let placeInfo = this.state.placeInfo
 			let newReviewsArr = [newReview, ...this.state.placeInfo.reviews]
+			placeInfo.reviews = newReviewsArr
 			this.setState({
-				placeInfo: Object.assign({}, this.state.placeInfo, { reviews: newReviewsArr }),
+				placeInfo: placeInfo,
 				review: {
 					text: '',
 					rating: 0
@@ -113,10 +114,23 @@ class Place extends React.Component {
 
 	colorStarsPlace = (index) => index + 1 <= this.state.placeInfo.rating ? 'fas': 'far'
 
-	handleChange = (date, field) => {
+	changeDate = (date, field) => {
 		let dates = this.state.dates
 		dates[field] = date
 		this.setState({dates})
+		this.toggleDisabled()
+	}
+
+	toggleDisabled = () => {
+		if (this.state.dates.startDate && this.state.dates.endDate) {
+			this.setState({
+				buttonDisabled: false
+			})
+		} else {
+			this.setState({
+				buttonDisabled: true
+			})
+		}
 	}
 
 	selectGuests = (e) => {
@@ -201,8 +215,8 @@ class Place extends React.Component {
 									<form className="small">
 										<div className="group">
 											<label>Dates</label>
-											<DatePicker selected={this.state.dates.startDate} onChange={(e) => this.handleChange(e, 'startDate')} />
-											<DatePicker selected={this.state.dates.endDate} onChange={(e) => this.handleChange(e, 'endDate')}/>
+											<DatePicker selected={this.state.dates.startDate} onChange={(e) => this.changeDate(e, 'startDate')} />
+											<DatePicker selected={this.state.dates.endDate} onChange={(e) => this.changeDate(e, 'endDate')}/>
 										</div>
 										<div className="group">
 											<label>Guests</label>
@@ -211,7 +225,7 @@ class Place extends React.Component {
 											</select>
 										</div>
 										<div className="group">
-											<button className="secondary full" onClick={(e) => this.goToConfirm(e)}>Book this place</button>
+											<button className="secondary full" onClick={(e) => this.goToConfirm(e)} disabled={this.state.buttonDisabled}>Book this place</button>
 										</div>
 									</form>
 								</div>
