@@ -62,6 +62,11 @@ class Confirm extends React.Component {
 		this.setState({place})
 	}
 
+	cancelConfirm = (e) => {
+		e.preventDefault()
+		this.props.history.goBack()
+	}
+
 	render() {
 		return(
 			<>
@@ -98,7 +103,7 @@ class Confirm extends React.Component {
 								<Link to="/bookings"><button className="primary">Confirm</button></Link>
 							</form>
 							<hr />
-							<Link to="/places"><button>Cancel</button></Link>
+							<button onClick={(e) => this.cancelConfirm(e)}>Cancel</button>
 						</div>
 					</div>
 				</div>
