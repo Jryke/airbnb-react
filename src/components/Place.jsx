@@ -1,9 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import moment from 'moment'
+import DatePicker from 'react-datepicker'
 import Nav from './Nav.jsx'
 import Gallery from './Gallery.jsx'
 import Review from './Review.jsx'
+import "react-datepicker/dist/react-datepicker.css"
 import '../styles/filters.css'
 import '../styles/grid.css'
 import '../styles/buttons.css'
@@ -28,13 +31,17 @@ class Place extends React.Component {
 			text: '',
 			rating: 0
 		},
-		selected: ''
+		selected: '',
+		dates: {
+			startDate: moment()._d,
+			endDate: moment().add(1, 'week')._d
+		}
 	}
 
 	componentWillMount() {
 		axios.get(`http://localhost:4000/places/5d720f54913f9d03fe347c41`)
 			.then(res => {
-				console.log(res.data)
+				// console.log(res.data)
 				// res.data.type = res.data.type.name
 				this.setState({
 					placeInfo : res.data,
@@ -42,6 +49,8 @@ class Place extends React.Component {
 				})
 			})
 			.catch(err => console.log(err))
+			console.log(moment())
+			console.log(new Date())
 	}
 
 	changeSelected = (newSelected) => {
@@ -104,6 +113,12 @@ class Place extends React.Component {
 	colorStarsReviews = (index) => index + 1 <= this.state.review.rating ? 'fas': 'far'
 
 	colorStarsPlace = (index) => index + 1 <= this.state.placeInfo.rating ? 'fas': 'far'
+
+	handleChange = (date, field) => {
+		let dates = this.state.dates
+		dates[field] = date
+		this.setState({dates})
+	}
 
 	render() {
 		return(
@@ -170,8 +185,8 @@ class Place extends React.Component {
 									<form className="small">
 										<div className="group">
 											<label>Dates</label>
-											<input type="text" placeholder="Check-in" />
-											<input type="text" placeholder="Check-out" />
+											<DatePicker selected={this.state.dates.startDate} onChange={(e) => this.handleChange(e, 'startDate')} />
+											<DatePicker selected={this.state.dates.endDate} onChange={(e) => this.handleChange(e, 'endDate')}/>
 										</div>
 										<div className="group">
 											<label>Guests</label>
