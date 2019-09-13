@@ -27,6 +27,9 @@ class Signup extends React.Component {
 			password: this.state.password,
 			location: this.state.location
 		})
+		.then(this.props.history.push({
+			pathname: '/'
+		}))
 	}
 
 	render() {
