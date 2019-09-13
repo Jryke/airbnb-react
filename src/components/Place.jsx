@@ -1,7 +1,5 @@
 import React from 'react'
-// import {Link} from 'react-router-dom'
 import axios from 'axios'
-import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import Nav from './Nav.jsx'
 import Gallery from './Gallery.jsx'
