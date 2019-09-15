@@ -20,9 +20,14 @@ class Login extends React.Component {
 	submitLogin = (e) => {
 		e.preventDefault()
 		if (this.state.email && this.state.password) {
-			axios.post('http//localhost:4000/login', {
+			axios.post('http://localhost:4000/login', {
 				email: this.state.email,
 				password: this.state.password
+			}).then(res => {
+				localStorage.setItem('token', res.data.token)
+				this.props.history.push({
+				pathname: '/'
+				})
 			})
 		} else {
 			this.setState({
