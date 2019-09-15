@@ -10,7 +10,8 @@ class Signup extends React.Component {
 		email: '',
 		password: '',
 		location: '',
-		profilePicture: ''
+		profilePicture: '',
+		errorMessage: false
 	}
 
 	sendInputToState = (e, input) => {
@@ -19,19 +20,37 @@ class Signup extends React.Component {
 		this.setState({state})
 	}
 
+	toggleErrorMessage = () => {
+		if (this.state.errorMessage) {
+			this.setState({
+				errorMessage: false
+			})
+		} else {
+			this.setState({
+				errorMessage: true
+			})
+		}
+	}
+
 	submitForm = (e) => {
 		e.preventDefault()
-		axios.post('http://localhost:4000/signup', {
-			name: this.state.name,
-			email: this.state.email,
-			password: this.state.password,
-			location: this.state.location
-		}).then(res => {
-			localStorage.setItem('token', res.data)
-			this.props.history.push({
-			pathname: '/'
+		if (this.state.name.length > 0 && this.state.email.length > 0 && this.state.password.length > 0 && this.state.location.length > 0) {
+			axios.post('http://localhost:4000/signup', {
+				name: this.state.name,
+				email: this.state.email,
+				password: this.state.password,
+				location: this.state.location
+			}).then(res => {
+				console.log(res.data);
+				localStorage.setItem('token', res.data.token)
+				this.props.history.push({
+				pathname: '/'
+				})
 			})
-		})
+		} else {
+			this.toggleErrorMessage()
+		}
+
 	}
 
 	render() {
@@ -60,6 +79,9 @@ class Signup extends React.Component {
 							<div className="group">
 								<label>Profile Picture</label>
 								<input type="file" />
+							</div>
+							<div>
+								{this.state.errorMessage ? <span style={{'lineHeight': '4em', 'color': 'red'}}>*Complete all information fields to sign up*</span> : null}
 							</div>
 							<button className="primary" onClick={this.submitForm}>Signup</button>
 						</form>
