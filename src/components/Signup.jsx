@@ -11,7 +11,7 @@ class Signup extends React.Component {
 		password: '',
 		location: '',
 		profilePicture: '',
-		errorMessage: false
+		errorMessage: ''
 	}
 
 	sendInputToState = (e, input) => {
@@ -20,35 +20,33 @@ class Signup extends React.Component {
 		this.setState({state})
 	}
 
-	toggleErrorMessage = () => {
-		if (this.state.errorMessage) {
+	setErrorMessage = (message) => {
 			this.setState({
-				errorMessage: false
+				errorMessage: message
 			})
-		} else {
-			this.setState({
-				errorMessage: true
-			})
-		}
 	}
 
 	submitForm = (e) => {
 		e.preventDefault()
-		if (this.state.name.length > 0 && this.state.email.length > 0 && this.state.password.length > 0 && this.state.location.length > 0) {
+		if (this.state.name && this.state.email && this.state.password && this.state.location) {
 			axios.post('http://localhost:4000/signup', {
 				name: this.state.name,
 				email: this.state.email,
 				password: this.state.password,
 				location: this.state.location
 			}).then(res => {
-				console.log(res.data);
-				localStorage.setItem('token', res.data.token)
-				this.props.history.push({
-				pathname: '/'
-				})
+				if (res.data === 'error') {
+					console.log(res.data)
+					this.setErrorMessage('*Error: account already exists. Go to login*')
+				} else {
+					localStorage.setItem('token', res.data.token)
+					this.props.history.push({
+					pathname: '/'
+					})
+				}
 			})
 		} else {
-			this.toggleErrorMessage()
+			this.setErrorMessage('*Complete all information fields to sign up*')
 		}
 
 	}
@@ -81,7 +79,7 @@ class Signup extends React.Component {
 								<input type="file" />
 							</div>
 							<div>
-								{this.state.errorMessage ? <span style={{'lineHeight': '4em', 'color': 'red'}}>*Complete all information fields to sign up*</span> : null}
+								{this.state.errorMessage ? <span style={{'lineHeight': '4em', 'color': 'red'}}>{this.state.errorMessage}</span> : null}
 							</div>
 							<button className="primary" onClick={this.submitForm}>Signup</button>
 						</form>
