@@ -26,12 +26,11 @@ class Signup extends React.Component {
 			email: this.state.email,
 			password: this.state.password,
 			location: this.state.location
-		})
-		.then(res => {
+		}).then(res => {
 			localStorage.setItem('token', res.data)
 			this.props.history.push({
 			pathname: '/'
-		})
+			})
 		})
 	}
 
