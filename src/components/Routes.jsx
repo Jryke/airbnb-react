@@ -13,13 +13,12 @@ import Login from './Login.jsx'
 import '../styles/global.css'
 
 class Routes extends React.Component {
-	checkForToken = () => {
+	checkForToken = (props) => {
 		if (localStorage.getItem('token')) {
 			return true
 		} else {
 			return false
 		}
-
 	}
 
 	render() {
@@ -28,7 +27,7 @@ class Routes extends React.Component {
 				<Switch>
 					<Route path='/signup' component={Signup} />
 					<Route path='/profile' render={ () => this.checkForToken() ? <Profile /> : <Redirect to='/login' />} />
-					<Route path='/place/:id' render={ () => this.checkForToken() ? <Place /> : <Redirect to='/login' />} />
+					<Route path='/place/:id' component={Place} />
 					<Route path='/login' component={Login} />
 					<Route path='/host' render={ () => this.checkForToken() ? <Host /> : <Redirect to='/login' />} />
 					<Route path='/favorites' render={ () => this.checkForToken() ? <Favorites /> : <Redirect to='/login' />} />
