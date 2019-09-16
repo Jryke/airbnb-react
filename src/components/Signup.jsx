@@ -57,7 +57,7 @@ class Signup extends React.Component {
 				<div className="card small">
 					<div className="content">
 						<div className="logo" style={{backgroundImage: "url('images/logo-airbnb.png')"}}></div>
-						<form>
+						<form onSubmit={this.submitForm}>
 							<div className="group">
 								<label>Name</label>
 								<input type="text" onChange={(e) => this.sendInputToState(e, 'name')} />
@@ -81,7 +81,7 @@ class Signup extends React.Component {
 							<div>
 								{this.state.errorMessage ? <span style={{'lineHeight': '4em', 'color': 'red'}}>{this.state.errorMessage}</span> : null}
 							</div>
-							<button className="primary" onClick={this.submitForm}>Signup</button>
+							<button className="primary">Signup</button>
 						</form>
 						<p className="footer">
 							Already have an account? <Link to="/Login">Login</Link>
