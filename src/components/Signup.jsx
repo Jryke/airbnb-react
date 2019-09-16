@@ -29,7 +29,7 @@ class Signup extends React.Component {
 	submitForm = (e) => {
 		e.preventDefault()
 		if (this.state.name && this.state.email && this.state.password && this.state.location) {
-			axios.post('http://localhost:4000/signup', {
+			axios.post(`${process.env.REACT_APP_API_URL}/signup`, {
 				name: this.state.name,
 				email: this.state.email,
 				password: this.state.password,

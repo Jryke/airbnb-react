@@ -7,6 +7,7 @@ import Thumbnail from './Thumbnail.jsx'
 import '../styles/grid.css'
 import '../styles/forms.css'
 import '../styles/buttons.css'
+import '../styles/cards.css'
 
 class Confirm extends React.Component {
 	state = {
@@ -73,12 +74,9 @@ class Confirm extends React.Component {
 				<Nav user={this.state.user}/>
 				<div className="grid medium">
 					<div className="grid sidebar-left">
-
 					<div className="sidebar">
 						<Thumbnail info={this.state.place} toggleLike={this.toggleLike}/>
 					</div>
-
-
 						<div className="content">
 							<h2>Confirm Booking</h2>
 							<form>

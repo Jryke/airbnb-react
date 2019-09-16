@@ -36,14 +36,14 @@ class Places extends React.Component {
 	}
 
 	componentWillMount() {
-		axios.get('http://localhost:4000/places')
+		axios.get(`${process.env.REACT_APP_API_URL}/places`)
 			.then(res => {
 				this.setState({
 					places: res.data
 				})
 			})
 			.catch(err => console.log(err))
-		axios.get('http://localhost:4000/types')
+		axios.get(`${process.env.REACT_APP_API_URL}/types`)
 			.then(res => {
 				this.setState({
 					types: res.data
@@ -124,7 +124,7 @@ class Places extends React.Component {
 			filtersArr.slice(1).forEach(filter => query = query + `&${filter}`)
 		}
 		// make query, set state with response
-		axios.get(`http://localhost:4000/places${query}`)
+		axios.get(`${process.env.REACT_APP_API_URL}/places${query}`)
 			.then(res => {
 				this.setState({
 					places: res.data
