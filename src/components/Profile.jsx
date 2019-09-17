@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
 import '../styles/grid.css'
@@ -10,12 +11,23 @@ import '../styles/buttons.css'
 class Profile extends React.Component {
 	state = {
 		user: {
-			name: 'Tony',
-			email: 'tony@tortugacoders.com',
-			location: 'Thailand',
-			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
+			name: '',
+			email: '',
+			location: '',
+			avatar: ''
 		},
 		currentPage: 'profile'
+	}
+
+	componentWillMount() {
+		let token = localStorage.getItem('token')
+		axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
+			token: token
+		}).then(res => {
+			this.setState({
+				user: res.data
+			})
+		})
 	}
 
 	render(){
@@ -34,11 +46,11 @@ class Profile extends React.Component {
 								</div>
 								<div className="group">
 									<label>Email</label>
-									<input type="email" value={this.state.user.email} />
+									<input type="email" defaultValue={this.state.user.email} />
 								</div>
 								<div className="group">
 									<label>Location</label>
-									<input type="text" value={this.state.user.location} />
+									<input type="text" defaultValue={this.state.user.location} />
 								</div>
 								<div className="group">
 									<label>Profile Picture</label>
