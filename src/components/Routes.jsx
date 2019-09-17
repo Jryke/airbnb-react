@@ -32,7 +32,7 @@ class Routes extends React.Component {
 					<Route path='/host' render={ () => this.checkForToken() ? <Host /> : <Redirect to='/login' />} />
 					<Route path='/favorites' render={ () => this.checkForToken() ? <Favorites /> : <Redirect to='/login' />} />
 					<Route path='/create' render={ () => this.checkForToken() ? <Create /> : <Redirect to='/login' />} />
-					<Route path='/confirm/:id' render={ () => this.checkForToken() ? <Confirm /> : <Redirect to='/login' />} />
+					<Route path='/confirm/:id' component={Confirm} />} />
 					<Route path='/bookings' render={ () => this.checkForToken() ? <Bookings /> : <Redirect to='/login' />} />
 					<Route path='/' render={ () => this.checkForToken() ? <Places /> : <Redirect to='/login' />} />
 				</Switch>

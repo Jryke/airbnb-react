@@ -1,9 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {Elements, StripeProvider} from 'react-stripe-elements'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import Nav from './Nav.jsx'
 import Thumbnail from './Thumbnail.jsx'
+import StripeForm from './StripeForm.jsx'
 import '../styles/grid.css'
 import '../styles/forms.css'
 import '../styles/buttons.css'
@@ -75,7 +77,9 @@ class Confirm extends React.Component {
 				<div className="grid medium">
 					<div className="grid sidebar-left">
 					<div className="sidebar">
-						<Thumbnail info={this.state.place} toggleLike={this.toggleLike}/>
+						<Link className="card link" to={`/Place/${this.state.place._id}`}>
+							<Thumbnail info={this.state.place} toggleLike={this.toggleLike}/>
+						</Link>
 					</div>
 						<div className="content">
 							<h2>Confirm Booking</h2>
@@ -105,6 +109,14 @@ class Confirm extends React.Component {
 						</div>
 					</div>
 				</div>
+				<StripeProvider apiKey={process.env.REACT_APP_STRIPE_PK}>
+					<div className="stripe-form">
+						<Elements>
+							<StripeForm />
+						</Elements>
+					</div>
+				</StripeProvider>
+
 			</>
 		)
 	}
