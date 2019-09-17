@@ -65,6 +65,8 @@ class Confirm extends React.Component {
 		this.setState({place})
 	}
 
+	setAmount = () => this.setDuration() * this.state.place.price
+
 	cancelConfirm = (e) => {
 		e.preventDefault()
 		this.props.history.goBack()
@@ -100,19 +102,19 @@ class Confirm extends React.Component {
 								</div>
 								<div className="group">
 									<label>Total: {this.setDuration()} nights</label>
-									<h2>${this.setDuration() * this.state.place.price}</h2>
+									<h2>${this.setAmount()}</h2>
 								</div>
 								<Link to="/bookings"><button className="primary">Confirm</button></Link>
 							</form>
 							<hr />
-							<button onClick={(e) => this.cancelConfirm(e)}>Cancel</button>
+							<button onClick={this.cancelConfirm}>Cancel</button>
 						</div>
 					</div>
 				</div>
 				<StripeProvider apiKey={process.env.REACT_APP_STRIPE_PK}>
 					<div className="stripe-form">
 						<Elements>
-							<StripeForm />
+							<StripeForm amount={this.setAmount()} description={this.state.place.title} />
 						</Elements>
 					</div>
 				</StripeProvider>
