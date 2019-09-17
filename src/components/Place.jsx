@@ -15,8 +15,10 @@ import '../styles/users.css'
 class Place extends React.Component {
 	state = {
 		user: {
-			name: 'Tony',
-			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
+			name: '',
+			avatar: '',
+			location: '',
+			email: ''
 		},
 		placeInfo: {
 			images: [],
@@ -41,6 +43,16 @@ class Place extends React.Component {
 	componentWillMount() {
 		axios.get(`${process.env.REACT_APP_API_URL}/places/${this.props.match.params.id}`)
 			.then(res => {
+				let placeInfo = res.data
+				let selected = res.data.images[0]
+				let token = localStorage.getItem('token')
+				axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
+					token: token
+				}).then(res => {
+					let user = res.data
+					this.setState({user, placeInfo, selected})
+				})
+
 				this.setState({
 					placeInfo : res.data,
 					selected: res.data.images[0]

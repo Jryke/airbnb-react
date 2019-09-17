@@ -9,8 +9,10 @@ import '../styles/grid.css'
 class Places extends React.Component {
 	state = {
 		user: {
-			name: 'Tony',
-			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
+			name: '',
+			avatar: '',
+			location: '',
+			email: ''
 		},
 		places: [],
 		types: [],
@@ -36,20 +38,19 @@ class Places extends React.Component {
 	}
 
 	componentWillMount() {
-		axios.get(`${process.env.REACT_APP_API_URL}/places`)
-			.then(res => {
-				this.setState({
-					places: res.data
+		axios.get(`${process.env.REACT_APP_API_URL}/places`).then(res => {
+			let places = res.data
+			axios.get(`${process.env.REACT_APP_API_URL}/types`).then(res => {
+				let types = res.data
+				let token = localStorage.getItem('token')
+				axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
+					token: token
+				}).then(res => {
+					let user = res.data
+					this.setState({places, types, user})
 				})
 			})
-			.catch(err => console.log(err))
-		axios.get(`${process.env.REACT_APP_API_URL}/types`)
-			.then(res => {
-				this.setState({
-					types: res.data
-				})
-			})
-			.catch(err => console.log(err))
+		}).catch(err => console.log(err))
 	}
 
 	setBedroomsFilter = (e) => {

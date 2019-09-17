@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
 import '../styles/grid.css'
@@ -9,12 +10,26 @@ import '../styles/forms.css'
 class Create extends React.Component {
 	state ={
 		user: {
-			name: 'Tony',
-			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
+			name: '',
+			avatar: '',
+			location: '',
+			email: ''
 		},
 		types: ['Entire Villa', 'Entire House', 'Entire Apartment', 'Private Room', 'Shared Villa', 'Shared House', 'Shared Apartment'],
 		amenities: ['Swimming Pool', 'Kitchen', 'Wi-Fi', 'TV', 'Gym', 'Iron', 'Air Conditioning']
 	}
+
+	componentWillMount() {
+		let token = localStorage.getItem('token')
+		axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
+			token: token
+		}).then(res => {
+			this.setState({
+				user: res.data
+			})
+		})
+	}
+
 	render() {
 		return(
 			<>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 import {Elements, StripeProvider} from 'react-stripe-elements'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
@@ -14,8 +15,10 @@ import '../styles/cards.css'
 class Confirm extends React.Component {
 	state = {
 		user: {
-			name: 'Tony',
-			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
+			name: '',
+			avatar: '',
+			location: '',
+			email: ''
 		},
 		place: {
 			amenities: [],
@@ -34,7 +37,13 @@ class Confirm extends React.Component {
 		let place = this.props.location.place
 		place.image = place.images[0]
 		delete place.images
-		this.setState({dates, guests, place})
+		let token = localStorage.getItem('token')
+		axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
+			token: token
+		}).then(res => {
+			let user = res.data
+			this.setState({user, dates, guests, place})
+		})
 	}
 
 	handleChange = (date, field) => {

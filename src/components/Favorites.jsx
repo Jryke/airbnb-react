@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
 import Thumbnail from './Thumbnail.jsx'
@@ -8,8 +9,10 @@ import '../styles/sidebar.css'
 class Favorites extends React.Component {
 	state = {
 		user: {
-			name: 'Tony',
-			avatar: 'https://randomuser.me/api/portraits/men/9.jpg'
+			name: '',
+			avatar: '',
+			location: '',
+			email: ''
 		},
 		info: [
 			{
@@ -24,6 +27,17 @@ class Favorites extends React.Component {
 			}
 		],
 		currentPage: 'favorites'
+	}
+
+	componentWillMount() {
+		let token = localStorage.getItem('token')
+		axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
+			token: token
+		}).then(res => {
+			this.setState({
+				user: res.data
+			})
+		})
 	}
 
 	toggleLike = (e, i) => {
