@@ -25,7 +25,8 @@ class Place extends React.Component {
 			amenities: [],
 			type: {},
 			host: {},
-			reviews: []
+			reviews: [],
+			rating: 0
 		},
 		review:{
 			text: '',
@@ -37,13 +38,16 @@ class Place extends React.Component {
 			endDate: null
 		},
 		buttonDisabled: true,
-		guests: 0
+		guests: 0,
+		reviewInput: true
 	}
 
 	componentWillMount() {
 		axios.get(`${process.env.REACT_APP_API_URL}/places/${this.props.match.params.id}`)
 			.then(res => {
 				let placeInfo = res.data
+				placeInfo.reviews.reverse()
+				placeInfo.rating = Math.round(placeInfo.reviews.map(review => review.rating).reduce((a,b) => a + b) / placeInfo.reviews.length)
 				let selected = res.data.images[0]
 				let token = localStorage.getItem('token')
 				axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
@@ -51,11 +55,6 @@ class Place extends React.Component {
 				}).then(res => {
 					let user = res.data
 					this.setState({user, placeInfo, selected})
-				})
-
-				this.setState({
-					placeInfo : res.data,
-					selected: res.data.images[0]
 				})
 			})
 			.catch(err => console.log(err))
@@ -106,17 +105,43 @@ class Place extends React.Component {
 				date: `${new Date()}`,
 				rating: this.state.review.rating
 			}
-			// change this to an axios post, then get to set state
-			let placeInfo = this.state.placeInfo
-			let newReviewsArr = [newReview, ...this.state.placeInfo.reviews]
-			placeInfo.reviews = newReviewsArr
-			this.setState({
-				placeInfo: placeInfo,
-				review: {
-					text: '',
-					rating: 0
-				}
-			})
+			axios.post(`${process.env.REACT_APP_API_URL}/reviews`, {
+				author: this.state.user._id,
+				rating: this.state.review.rating,
+				content: this.state.review.text,
+				place: this.state.placeInfo._id
+			}).then(res => {
+				axios.get(`${process.env.REACT_APP_API_URL}/reviews/${this.state.placeInfo._id}`)
+				.then(res => {
+					let reviews = res.data.reverse()
+					let placeInfo = this.state.placeInfo
+					placeInfo.reviews = reviews
+					console.log(reviews)
+					// fix this to match
+					placeInfo.rating = Math.round(reviews.map(review => review.rating).reduce((a,b) => a + b) / placeInfo.reviews.length)
+					this.setState({
+						placeInfo: placeInfo,
+						reviewInput: false
+					})
+				})
+			}).catch(err => console.log(err))
+		}
+	}
+
+	showReviewInput = () => {
+		if (this.state.reviewInput) {
+			return(
+				<form onSubmit={(e) => this.submitReview(e)}>
+					<div className="group">
+						<label>Leave a review</label>
+						<textarea onChange={(e) => this.setReview(e)} value={this.state.review.text}></textarea>
+						<div className="rating">
+							{[...Array(5)].map((n, i) => <i className={`${this.colorStarsReviews(i)} fa-star`} onClick={() => this.setRating(i)} index={n} key={i}></i>)}
+						</div>
+						<button className="primary small">Submit</button>
+					</div>
+				</form>
+			)
 		}
 	}
 
@@ -201,16 +226,7 @@ class Place extends React.Component {
 							</div>
 							<div className="reviews">
 								<h2>{this.state.placeInfo.reviews.length} Reviews</h2>
-								<form onSubmit={(e) => this.submitReview(e)}>
-									<div className="group">
-										<label>Leave a review</label>
-										<textarea onChange={(e) => this.setReview(e)} value={this.state.review.text}></textarea>
-										<div className="rating">
-											{[...Array(5)].map((n, i) => <i className={`${this.colorStarsReviews(i)} fa-star`} onClick={() => this.setRating(i)} index={n} key={i}></i>)}
-										</div>
-										<button className="primary small">Submit</button>
-									</div>
-								</form>
+								{this.showReviewInput()}
 								{this.state.placeInfo.reviews.map((review, i) => <Review key={i} review={review} />)}
 							</div>
 						</div>
