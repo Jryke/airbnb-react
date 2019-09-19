@@ -30,6 +30,10 @@ class Profile extends React.Component {
 		})
 	}
 
+	logout = () => {
+		localStorage.removeItem('token')
+	}
+
 	render(){
 		return(
 			<>
@@ -64,7 +68,7 @@ class Profile extends React.Component {
 								<button>Save Changes</button>
 							</form>
 							<hr />
-							<Link to="/login"><button className="secondary">Logout</button></Link>
+							<Link to="/login"><button className="secondary" onClick={this.logout}>Logout</button></Link>
 						</div>
 					</div>
 				</div>
