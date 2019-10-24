@@ -16,7 +16,11 @@ class Create extends React.Component {
 			email: ''
 		},
 		types: ['Entire Villa', 'Entire House', 'Entire Apartment', 'Private Room', 'Shared Villa', 'Shared House', 'Shared Apartment'],
-		amenities: ['Swimming Pool', 'Kitchen', 'Wi-Fi', 'TV', 'Gym', 'Iron', 'Air Conditioning']
+		amenities: ['Swimming Pool', 'Kitchen', 'Wi-Fi', 'TV', 'Gym', 'Iron', 'Air Conditioning'],
+		newPlace: {
+			type: 'Entire Villa',
+			amenities: []
+		}
 	}
 
 	componentWillMount() {
@@ -28,6 +32,22 @@ class Create extends React.Component {
 				user: res.data
 			})
 		})
+	}
+
+	sendInputToState = (e, input, inputObj) => {
+		let state = this.state
+		state.newPlace[input] = e.target.value
+		this.setState({state})
+	}
+
+	sendAmenityToState = (e) => {
+		let newPlace = this.state.newPlace
+		if (!newPlace.amenities.includes(e.target.name)) {
+			newPlace.amenities.push(e.target.name)
+		} else {
+			newPlace.amenities.splice(newPlace.amenities.indexOf(e.target.name), 1)
+		}
+		this.setState({newPlace})
 	}
 
 	render() {
@@ -42,52 +62,52 @@ class Create extends React.Component {
 						<form>
 							<div className="group">
 								<label>Title</label>
-								<input type="text" />
+								<input type="text" onChange={(e) => this.sendInputToState(e, 'title')} value={this.state.newPlace.title} />
 							</div>
 							<div className="group">
 								<label>Description</label>
-								<textarea></textarea>
+								<textarea onChange={(e) => this.sendInputToState(e, 'description')} value={this.state.newPlace.description} ></textarea>
 							</div>
 							<div className="group">
 								<label>City or Town</label>
-								<input type="text" />
+								<input type="text" onChange={(e) => this.sendInputToState(e, 'city')} value={this.state.newPlace.city} />
 							</div>
 							<div className="group">
 								<label>Country</label>
-								<input type="text" />
+								<input type="text" onChange={(e) => this.sendInputToState(e, 'country')} value={this.state.newPlace.country} />
 							</div>
 							<div className="group">
 								<label>Price per Night (USD)</label>
-								<input type="number" />
+								<input type="number" onChange={(e) => this.sendInputToState(e, 'price')} value={this.state.newPlace.price} />
 							</div>
 							<div className="group">
 								<label>Type</label>
-								<select>
+								<select onChange={(e) => this.sendInputToState(e, 'type')} value={this.state.newPlace.type} >
 									{this.state.types.map((type, i) => <option key={i}>{type}</option>)}
 								</select>
 							</div>
 							<div className="group">
 								<label>Number of Rooms</label>
-								<input type="number" />
+								<input type="number" onChange={(e) => this.sendInputToState(e, 'bedrooms')} value={this.state.newPlace.bedrooms} />
 							</div>
 							<div className="group">
 								<label>Number of Bathrooms</label>
-								<input type="number" />
+								<input type="number" onChange={(e) => this.sendInputToState(e, 'bathrooms')} value={this.state.newPlace.bathrooms} />
 							</div>
 							<div className="group">
 								<label>Maximum number of Guests</label>
-								<input type="number" />
+								<input type="number" onChange={(e) => this.sendInputToState(e, 'guests')} value={this.state.newPlace.guests} />
 							</div>
 							<div className="group">
 								<label>Upload Photos</label>
-								<input type="file" multiple />
+								<input type="file" multiple onChange={(e) => this.sendInputToState(e, 'img')} value={this.state.newPlace.img} />
 							</div>
 							<div className="group">
 								<label>Amenities</label>
 								{this.state.amenities.map((amenity, i) => {
 									return(
 										<label key={i} className="checkbox">
-											<input type="checkbox" /> {amenity}
+											<input type="checkbox" name={amenity} onChange={(e) => this.sendAmenityToState(e)} checked={this.state.newPlace.amenities.includes(amenity)} /> {amenity}
 										</label>
 									)
 								})}
