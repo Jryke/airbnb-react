@@ -15,10 +15,10 @@ class Create extends React.Component {
 			location: '',
 			email: ''
 		},
-		types: ['Entire Villa', 'Entire House', 'Entire Apartment', 'Private Room', 'Shared Villa', 'Shared House', 'Shared Apartment'],
-		amenities: ['Swimming Pool', 'Kitchen', 'Wi-Fi', 'TV', 'Gym', 'Iron', 'Air Conditioning'],
+		types: [],
+		amenities: [],
 		newPlace: {
-			type: 'Entire Villa',
+			type: '5db21d5438a26c7401205b77',
 			amenities: []
 		}
 	}
@@ -31,7 +31,21 @@ class Create extends React.Component {
 			this.setState({
 				user: res.data
 			})
+		}).catch(err => console.log(err))
+		axios.get(`${process.env.REACT_APP_API_URL}/types`)
+			.then(res => {
+				this.setState({
+					types: res.data
+				})
+			})
+			.catch(err => console.log(err))
+		axios.get(`${process.env.REACT_APP_API_URL}/amenities`)
+		.then(res => {
+			this.setState({
+				amenities: res.data
+			})
 		})
+		.catch(err => console.log(err))
 	}
 
 	sendInputToState = (e, input, inputObj) => {
@@ -42,10 +56,10 @@ class Create extends React.Component {
 
 	sendAmenityToState = (e) => {
 		let newPlace = this.state.newPlace
-		if (!newPlace.amenities.includes(e.target.name)) {
-			newPlace.amenities.push(e.target.name)
+		if (!newPlace.amenities.includes(e.target.id)) {
+			newPlace.amenities.push(e.target.id)
 		} else {
-			newPlace.amenities.splice(newPlace.amenities.indexOf(e.target.name), 1)
+			newPlace.amenities.splice(newPlace.amenities.indexOf(e.target.id), 1)
 		}
 		this.setState({newPlace})
 	}
@@ -83,7 +97,7 @@ class Create extends React.Component {
 							<div className="group">
 								<label>Type</label>
 								<select onChange={(e) => this.sendInputToState(e, 'type')} value={this.state.newPlace.type} >
-									{this.state.types.map((type, i) => <option key={i}>{type}</option>)}
+									{this.state.types.map((type, i) => <option key={i} value={type._id}>{type.name}</option>)}
 								</select>
 							</div>
 							<div className="group">
@@ -107,7 +121,7 @@ class Create extends React.Component {
 								{this.state.amenities.map((amenity, i) => {
 									return(
 										<label key={i} className="checkbox">
-											<input type="checkbox" name={amenity} onChange={(e) => this.sendAmenityToState(e)} checked={this.state.newPlace.amenities.includes(amenity)} /> {amenity}
+											<input type="checkbox" id={amenity._id} onChange={(e) => this.sendAmenityToState(e)} checked={this.state.newPlace.amenities.includes(amenity._id)} /> {amenity.name}
 										</label>
 									)
 								})}
