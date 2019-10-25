@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import axios from 'axios'
 import Nav from './Nav.jsx'
 import Sidebar from './Sidebar.jsx'
@@ -18,6 +17,15 @@ class Create extends React.Component {
 		types: [],
 		amenities: [],
 		newPlace: {
+			title: '',
+			description: '',
+			city: '',
+			country: '',
+			price: '',
+			bedrooms: '',
+			bathrooms: '',
+			guests: '',
+			imgs: [],
 			type: '5db21d5438a26c7401205b77',
 			amenities: []
 		}
@@ -64,6 +72,31 @@ class Create extends React.Component {
 		this.setState({newPlace})
 	}
 
+	submitPlace = (e) => {
+		e.preventDefault()
+		let place = this.state.newPlace
+		axios.post(`${process.env.REACT_APP_API_URL}/places`, {
+			title: place.title,
+			description: place.description,
+			type: place.type,
+			city: place.city,
+			country: place.country,
+			price: place.price,
+			guests: place.guests,
+			bedrooms: place.bedrooms,
+			bathrooms: place.bathrooms,
+			host: this.state.user._id,
+			images: place.imgs,
+			amenities: place.amenities
+		})
+		.then(res => {
+			this.props.history.push({
+				pathname: '/host'
+			})
+		})
+		.catch(err => console.log(err))
+	}
+
 	render() {
 		return(
 			<>
@@ -73,7 +106,7 @@ class Create extends React.Component {
 					<Sidebar />
 					<div className="content">
 						<h2>Host a new place</h2>
-						<form>
+						<form onSubmit={this.submitPlace}>
 							<div className="group">
 								<label>Title</label>
 								<input type="text" onChange={(e) => this.sendInputToState(e, 'title')} value={this.state.newPlace.title} />
@@ -114,7 +147,7 @@ class Create extends React.Component {
 							</div>
 							<div className="group">
 								<label>Upload Photos</label>
-								<input type="file" multiple onChange={(e) => this.sendInputToState(e, 'img')} value={this.state.newPlace.img} />
+								<input type="file" multiple onChange={(e) => this.sendInputToState(e, 'imgs')} value={this.state.newPlace.imgs} />
 							</div>
 							<div className="group">
 								<label>Amenities</label>
@@ -126,7 +159,7 @@ class Create extends React.Component {
 									)
 								})}
 							</div>
-							<Link to="/host"><button className="primary">Publish this Place</button></Link>
+							<button className="primary">Publish this Place</button>
 							<button className="cancel"><i className="fas fa-times"></i></button>
 						</form>
 					</div>
