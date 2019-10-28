@@ -12,7 +12,8 @@ class Places extends React.Component {
 			name: '',
 			avatar: '',
 			location: '',
-			email: ''
+			email: '',
+			likes: []
 		},
 		places: [],
 		types: [],
@@ -47,6 +48,7 @@ class Places extends React.Component {
 					token: token
 				}).then(res => {
 					let user = res.data
+					 console.log(user)
 					this.setState({places, types, user})
 				})
 			})
@@ -158,12 +160,18 @@ class Places extends React.Component {
 			return this.filterPlaces()
 		}
 	}
+	
+	renderLike = (placeId) => this.state.user.likes.includes(placeId) ? 'fas' : 'far'
 
-	toggleLike = (e, i) => {
+	toggleLike = (e, placeId) => {
 		e.preventDefault()
-		let place = this.state.places[i]
-		place.liked = !place.liked
-		this.setState({place})
+		let token = localStorage.getItem('token')
+		axios.patch(`${process.env.REACT_APP_API_URL}/users/${token}`, {
+			likes: placeId
+		}).then(res => {
+			let user = res.data
+			this.setState({user})
+		})
 	}
 
 	render() {
@@ -186,7 +194,7 @@ class Places extends React.Component {
 					<input type="text" className="search" placeholder="Search..." onChange={(e) => this.setNameFilter(e)} value={this.state.inputValue}/>
 				</div>
 				<div className="grid five large">
-					{this.sortPlaces().map((place, i) => <Link className="card link" to={`/Place/${place._id}`} key={i}><Thumbnail info={place} toggleLike={this.toggleLike} index={i} /></Link>)}
+					{this.sortPlaces().map((place, i) => <Link className="card link" to={`/Place/${place._id}`} key={i}><Thumbnail info={place} renderLike={this.renderLike} toggleLike={this.toggleLike} index={i} /></Link>)}
 				</div>
 			</>
 		)

@@ -18,7 +18,8 @@ class Place extends React.Component {
 			name: '',
 			avatar: '',
 			location: '',
-			email: ''
+			email: '',
+			likes: []
 		},
 		placeInfo: {
 			images: [],
@@ -69,11 +70,17 @@ class Place extends React.Component {
 		})
 	}
 
-	toggleLike = (e) => {
+	renderLike = (placeId) => this.state.user.likes.includes(placeId) ? 'fas' : 'far'
+
+	toggleLike = (e, placeId) => {
 		e.preventDefault()
-		let place = this.state.placeInfo
-		place.liked = !place.liked
-		this.setState({place})
+		let token = localStorage.getItem('token')
+		axios.patch(`${process.env.REACT_APP_API_URL}/users/${token}`, {
+			likes: placeId
+		}).then(res => {
+			let user = res.data
+			this.setState({user})
+		})
 	}
 
 	setReview = (e) => {
@@ -181,7 +188,7 @@ class Place extends React.Component {
 		return(
 			<>
 				<Nav user={this.state.user}/>
-				<Gallery pictures={this.state.placeInfo.images} selected={this.state.selected} changeSelected={this.changeSelected} info={this.state.placeInfo} toggleLike={this.toggleLike}/>
+				<Gallery pictures={this.state.placeInfo.images} selected={this.state.selected} changeSelected={this.changeSelected} info={this.state.placeInfo} renderLike={this.renderLike} toggleLike={this.toggleLike} />
 				<div className="grid medium">
 					<div className="grid sidebar-right">
 						<div className="content">

@@ -18,7 +18,8 @@ class Confirm extends React.Component {
 			name: '',
 			avatar: '',
 			location: '',
-			email: ''
+			email: '',
+			likes: []
 		},
 		place: {
 			amenities: [],
@@ -66,12 +67,17 @@ class Confirm extends React.Component {
 		return moment.duration(moment(departure).diff(moment(arrival))).as('days').toFixed()
 	}
 
-	toggleLike = (e) => {
+	renderLike = (placeId) => this.state.user.likes.includes(placeId) ? 'fas' : 'far'
+
+	toggleLike = (e, placeId) => {
 		e.preventDefault()
-		console.log(this.props.location)
-		let place = this.state.place
-		place.liked = !place.liked
-		this.setState({place})
+		let token = localStorage.getItem('token')
+		axios.patch(`${process.env.REACT_APP_API_URL}/users/${token}`, {
+			likes: placeId
+		}).then(res => {
+			let user = res.data
+			this.setState({user})
+		})
 	}
 
 	setAmount = () => this.setDuration() * this.state.place.price
@@ -89,7 +95,7 @@ class Confirm extends React.Component {
 					<div className="grid sidebar-left">
 					<div className="sidebar">
 						<Link className="card link" to={`/Place/${this.state.place._id}`}>
-							<Thumbnail info={this.state.place} toggleLike={this.toggleLike}/>
+							<Thumbnail info={this.state.place} renderLike={this.renderLike} toggleLike={this.toggleLike} />
 						</Link>
 					</div>
 						<div className="content">

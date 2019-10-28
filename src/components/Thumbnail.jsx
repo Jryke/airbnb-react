@@ -3,8 +3,6 @@ import '../styles/cards.css'
 
 class Thumbnail extends React.Component {
 
-	setHeartClass = () => this.props.info.liked ? 'fas' : 'far'
-
 	renderLocation = () => {
 		if (this.props.info.city) {
 			return <small className="location">
@@ -30,8 +28,8 @@ class Thumbnail extends React.Component {
 		return(
 			<>
 				<div className="image" style={{backgroundImage: `url(${this.props.info.image})`}}>
-					<button className="icon" onClick={(e) => this.props.toggleLike(e, this.props.index)}>
-						<i className={`${this.setHeartClass()} fa-heart`}></i>
+					<button className="icon" onClick={(e) => this.props.toggleLike(e, this.props.info._id)}>
+						<i className={`${this.props.renderLike(this.props.info._id)} fa-heart`}></i>
 					</button>
 				</div>
 				<div className="content">

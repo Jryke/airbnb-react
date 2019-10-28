@@ -12,20 +12,10 @@ class Favorites extends React.Component {
 			name: '',
 			avatar: '',
 			location: '',
-			email: ''
+			email: '',
+			likes: []
 		},
-		info: [
-			{
-				name: 'Luxury Villa Indu Siam',
-				type: 'Entire Villa',
-				rooms: 7,
-				guests: 10,
-				price: 350,
-				reviews: 37,
-				rating: 4,
-				img: 'https://q-ak.bstatic.com/images/hotel/max1024x768/186/186223203.jpg'
-			}
-		],
+		favorites: [],
 		currentPage: 'favorites'
 	}
 
@@ -34,17 +24,30 @@ class Favorites extends React.Component {
 		axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
 			token: token
 		}).then(res => {
-			this.setState({
-				user: res.data
+			let user = res.data
+			axios.get(`${process.env.REACT_APP_API_URL}/places`)
+			.then(res => {
+				let places = res.data
+				console.log(places)
+				console.log(user.likes)
+				let favorites = places.filter(place => user.likes.includes(place._id))
+				console.log(favorites)
+				this.setState({user, favorites})
 			})
 		})
 	}
 
-	toggleLike = (e, i) => {
+	renderLike = (placeId) => this.state.user.likes.includes(placeId) ? 'fas' : 'far'
+
+	toggleLike = (e, placeId) => {
 		e.preventDefault()
-		let place = this.state.info[i]
-		place.liked = !place.liked
-		this.setState({place})
+		let token = localStorage.getItem('token')
+		axios.patch(`${process.env.REACT_APP_API_URL}/users/${token}`, {
+			likes: placeId
+		}).then(res => {
+			let user = res.data
+			this.setState({user})
+		})
 	}
 
 	render() {
@@ -57,7 +60,7 @@ class Favorites extends React.Component {
 					<div className="content">
 						<h2>My Favorites</h2>
 						<div className="grid two">
-							{this.state.info.map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i} />)}
+							{this.state.favorites.map((place, i) => <Thumbnail info={place} renderLike={this.renderLike} toggleLike={this.toggleLike} index={i} key={i} />)}
 						</div>
 					</div>
 					</div>
