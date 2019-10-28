@@ -54,7 +54,10 @@ class Place extends React.Component {
 					token: token
 				}).then(res => {
 					let user = res.data
-					this.setState({user, placeInfo, selected})
+					let reviewersIds = placeInfo.reviews.map(review => review.author._id)
+					let reviewInput
+					reviewersIds.includes(user._id) ? reviewInput = false : reviewInput = true
+					this.setState({user, placeInfo, selected, reviewInput})
 				})
 			})
 			.catch(err => console.log(err))
@@ -96,15 +99,6 @@ class Place extends React.Component {
 	submitReview = (e) => {
 		e.preventDefault()
 		if (this.state.review.text && this.state.review.rating > 0) {
-			let newReview = {
-				author: {
-					avatar: this.state.user.avatar,
-					name: this.state.user.name,
-				},
-				content: this.state.review.text,
-				date: `${new Date()}`,
-				rating: this.state.review.rating
-			}
 			axios.post(`${process.env.REACT_APP_API_URL}/reviews`, {
 				author: this.state.user._id,
 				rating: this.state.review.rating,
@@ -116,8 +110,6 @@ class Place extends React.Component {
 					let reviews = res.data.reverse()
 					let placeInfo = this.state.placeInfo
 					placeInfo.reviews = reviews
-					console.log(reviews)
-					// fix this to match
 					placeInfo.rating = Math.round(reviews.map(review => review.rating).reduce((a,b) => a + b) / placeInfo.reviews.length)
 					this.setState({
 						placeInfo: placeInfo,
