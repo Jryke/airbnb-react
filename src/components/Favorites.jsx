@@ -28,10 +28,7 @@ class Favorites extends React.Component {
 			axios.get(`${process.env.REACT_APP_API_URL}/places`)
 			.then(res => {
 				let places = res.data
-				console.log(places)
-				console.log(user.likes)
 				let favorites = places.filter(place => user.likes.includes(place._id))
-				console.log(favorites)
 				this.setState({user, favorites})
 			})
 		})
