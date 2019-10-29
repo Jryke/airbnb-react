@@ -10,7 +10,7 @@ class Signup extends React.Component {
 		email: '',
 		password: '',
 		location: '',
-		profilePicture: '',
+		avatar: {},
 		errorMessage: ''
 	}
 
@@ -26,15 +26,22 @@ class Signup extends React.Component {
 			})
 	}
 
+	getFile = (e) => {
+		let avatar = e.target.files[0]
+		this.setState({avatar})
+	}
+
 	submitForm = (e) => {
 		e.preventDefault()
 		if (this.state.name && this.state.email && this.state.password && this.state.location) {
-			axios.post(`${process.env.REACT_APP_API_URL}/signup`, {
-				name: this.state.name,
-				email: this.state.email,
-				password: this.state.password,
-				location: this.state.location
-			}).then(res => {
+			let formData = new FormData()
+			formData.append('avatar', this.state.avatar)
+			formData.append('name', this.state.name)
+			formData.append('email', this.state.email)
+			formData.append('password', this.state.password)
+			formData.append('location', this.state.location)
+			axios.post(`${process.env.REACT_APP_API_URL}/signup`, formData
+			).then(res => {
 				if (res.data === 'error') {
 					console.log(res.data)
 					this.setErrorMessage('*Error: account already exists. Go to login*')
@@ -76,7 +83,7 @@ class Signup extends React.Component {
 							</div>
 							<div className="group">
 								<label>Profile Picture</label>
-								<input type="file" />
+								<input type="file" onChange={this.getFile} />
 							</div>
 							<div>
 								{this.state.errorMessage ? <span style={{'lineHeight': '4em', 'color': 'red'}}>{this.state.errorMessage}</span> : null}
