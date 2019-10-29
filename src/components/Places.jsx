@@ -48,7 +48,6 @@ class Places extends React.Component {
 					token: token
 				}).then(res => {
 					let user = res.data
-					 console.log(user)
 					this.setState({places, types, user})
 				})
 			})
@@ -166,7 +165,7 @@ class Places extends React.Component {
 	toggleLike = (e, placeId) => {
 		e.preventDefault()
 		let token = localStorage.getItem('token')
-		axios.patch(`${process.env.REACT_APP_API_URL}/users/${token}`, {
+		axios.patch(`${process.env.REACT_APP_API_URL}/likes/${token}`, {
 			likes: placeId
 		}).then(res => {
 			let user = res.data
