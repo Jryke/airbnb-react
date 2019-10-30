@@ -28,7 +28,8 @@ class Create extends React.Component {
 			imgs: [],
 			type: '5db21d5438a26c7401205b77',
 			amenities: []
-		}
+		},
+		errorMessage: ''
 	}
 
 	componentWillMount() {
@@ -56,6 +57,12 @@ class Create extends React.Component {
 		.catch(err => console.log(err))
 	}
 
+	setErrorMessage = (message) => {
+		this.setState({
+			errorMessage: message
+		})
+	}
+
 	sendInputToState = (e, input, inputObj) => {
 		let newPlace = this.state.newPlace
 		newPlace[input] = e.target.value
@@ -64,7 +71,8 @@ class Create extends React.Component {
 
 	getFiles = (e) => {
 		let newPlace = this.state.newPlace
-		newPlace.imgs = e.target.files
+		let files = [...e.target.files]
+		newPlace.imgs = files
 		this.setState({newPlace})
 	}
 
@@ -81,26 +89,31 @@ class Create extends React.Component {
 	submitPlace = (e) => {
 		e.preventDefault()
 		let place = this.state.newPlace
-		axios.post(`${process.env.REACT_APP_API_URL}/places`, {
-			title: place.title,
-			description: place.description,
-			type: place.type,
-			city: place.city,
-			country: place.country,
-			price: place.price,
-			guests: place.guests,
-			bedrooms: place.bedrooms,
-			bathrooms: place.bathrooms,
-			host: this.state.user._id,
-			images: place.imgs,
-			amenities: place.amenities
-		})
-		.then(res => {
-			this.props.history.push({
-				pathname: '/host'
+		if (place.title && place.description && place.type && place.city && place.country && place.price && place.guests && place.bedrooms && place.bathrooms && place.amenities.length > 0) {
+			let formData = new FormData()
+			formData.append('title', place.title)
+			formData.append('description', place.description)
+			formData.append('type', place.type)
+			formData.append('city', place.city)
+			formData.append('country', place.country)
+			formData.append('price', place.price)
+			formData.append('guests', place.guests)
+			formData.append('bedrooms', place.bedrooms)
+			formData.append('bathrooms', place.bathrooms)
+			formData.append('host', this.state.user._id)
+			formData.append('amenities', place.amenities)
+			place.imgs.forEach(image => formData.append('images', image))
+			axios.post(`${process.env.REACT_APP_API_URL}/places`, formData
+			).then(res => {
+				this.props.history.push({
+					pathname: '/host'
+				})
 			})
-		})
-		.catch(err => console.log(err))
+			.catch(err => console.log(err))
+		} else {
+			this.setErrorMessage('*Complete all information fields to create new place*')
+		}
+		
 	}
 
 	render() {
@@ -166,6 +179,7 @@ class Create extends React.Component {
 								})}
 							</div>
 							<button className="primary">Publish this Place</button>
+							{this.state.errorMessage ? <span style={{'lineHeight': '4em', 'color': 'red'}}>{this.state.errorMessage}</span> : null}
 							<button className="cancel"><i className="fas fa-times"></i></button>
 						</form>
 					</div>
