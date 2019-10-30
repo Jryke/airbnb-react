@@ -62,6 +62,12 @@ class Create extends React.Component {
 		this.setState({state})
 	}
 
+	getFiles = (e) => {
+		let newPlace = this.state.newPlace
+		newPlace.imgs = e.target.files
+		this.setState({newPlace})
+	}
+
 	sendAmenityToState = (e) => {
 		let newPlace = this.state.newPlace
 		if (!newPlace.amenities.includes(e.target.id)) {
@@ -147,7 +153,7 @@ class Create extends React.Component {
 							</div>
 							<div className="group">
 								<label>Upload Photos</label>
-								<input type="file" multiple onChange={(e) => this.sendInputToState(e, 'imgs')} value={this.state.newPlace.imgs} />
+								<input type="file" multiple onChange={this.getFiles} />
 							</div>
 							<div className="group">
 								<label>Amenities</label>
