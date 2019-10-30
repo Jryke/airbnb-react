@@ -30,14 +30,19 @@ class Host extends React.Component {
 	}
 	renderHosted = () => {
 		if (this.state.hosted.length > 0) {
-			return this.state.hosted.map((place, i) => <Thumbnail info={place} toggleLike={this.toggleLike} index={i} key={i} />)
+			return this.state.hosted.map((place, i) => <Thumbnail info={place} renderLike={this.renderLike} toggleLike={this.toggleLike} index={i} key={i} />)
 		}
 	}
-	toggleLike = (e, i) => {
+	renderLike = (placeId) => this.state.user.likes.includes(placeId) ? 'fas' : 'far'
+	toggleLike = (e, placeId) => {
 		e.preventDefault()
-		let place = this.state.hosted[i]
-		place.liked = !place.liked
-		this.setState({place})
+		let token = localStorage.getItem('token')
+		axios.patch(`${process.env.REACT_APP_API_URL}/likes/${token}`, {
+			likes: placeId
+		}).then(res => {
+			let user = res.data
+			this.setState({user})
+		})
 	}
 	render() {
 		return(
