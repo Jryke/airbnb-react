@@ -47,8 +47,10 @@ class Place extends React.Component {
 		axios.get(`${process.env.REACT_APP_API_URL}/places/${this.props.match.params.id}`)
 			.then(res => {
 				let placeInfo = res.data
-				placeInfo.reviews.reverse()
-				placeInfo.rating = Math.round(placeInfo.reviews.map(review => review.rating).reduce((a,b) => a + b) / placeInfo.reviews.length)
+				if (placeInfo.reviews.length > 0) {
+					placeInfo.reviews.reverse()
+					placeInfo.rating = Math.round(placeInfo.reviews.map(review => review.rating).reduce((a,b) => a + b) / placeInfo.reviews.length)
+				}
 				let selected = res.data.images[0]
 				let token = localStorage.getItem('token')
 				axios.post(`${process.env.REACT_APP_API_URL}/auth`, {
