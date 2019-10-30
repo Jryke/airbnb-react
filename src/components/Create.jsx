@@ -57,9 +57,9 @@ class Create extends React.Component {
 	}
 
 	sendInputToState = (e, input, inputObj) => {
-		let state = this.state
-		state.newPlace[input] = e.target.value
-		this.setState({state})
+		let newPlace = this.state.newPlace
+		newPlace[input] = e.target.value
+		this.setState({newPlace})
 	}
 
 	getFiles = (e) => {
