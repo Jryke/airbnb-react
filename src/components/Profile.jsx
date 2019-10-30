@@ -39,7 +39,7 @@ class Profile extends React.Component {
 	getFile = (e) => {
 		let user = this.state.user
 		user.avatar = e.target.files[0]
-		this.setState({user}, console.log(this.state))
+		this.setState({user})
 	}
 
 	submitForm = (e) => {
