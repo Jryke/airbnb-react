@@ -30,6 +30,33 @@ class Profile extends React.Component {
 		})
 	}
 
+	sendInputToState = (e, input) => {
+		let user = this.state.user
+		user[input] = e.target.value
+		this.setState({user})
+	}
+
+	getFile = (e) => {
+		let user = this.state.user
+		user.avatar = e.target.files[0]
+		this.setState({user}, console.log(this.state))
+	}
+
+	submitForm = (e) => {
+		e.preventDefault()
+		let formData = new FormData()
+		formData.append('name', this.state.user.name)
+		formData.append('email', this.state.user.email)
+		formData.append('location', this.state.user.location)
+		formData.append('avatar', this.state.user.avatar)
+		let token = localStorage.getItem('token')
+		axios.patch(`${process.env.REACT_APP_API_URL}/user/${token}`, formData)
+		.then(res => {
+			let user = res.data
+			this.setState({user})
+		})
+	}
+
 	logout = () => {
 		localStorage.removeItem('token')
 	}
@@ -43,25 +70,25 @@ class Profile extends React.Component {
 						<Sidebar currentPage={this.state.currentPage}/>
 						<div className="content">
 							<h2>My Profile</h2>
-							<form>
+							<form onSubmit={this.submitForm}>
 								<div className="group">
 									<label>Name</label>
-									<input type="text" defaultValue={this.state.user.name} />
+									<input type="text" defaultValue={this.state.user.name} onChange={(e) => this.sendInputToState(e, 'name')} />
 								</div>
 								<div className="group">
 									<label>Email</label>
-									<input type="email" defaultValue={this.state.user.email} />
+									<input type="email" defaultValue={this.state.user.email} onChange={(e) => this.sendInputToState(e, 'email')} />
 								</div>
 								<div className="group">
 									<label>Location</label>
-									<input type="text" defaultValue={this.state.user.location} />
+									<input type="text" defaultValue={this.state.user.location} onChange={(e) => this.sendInputToState(e, 'location')} />
 								</div>
 								<div className="group">
 									<label>Profile Picture</label>
 									<div className="user">
 										<div className="avatar" style={{backgroundImage: `url(${this.state.user.avatar})`}}></div>
 										<div className="name">
-											<input type="file" />
+											<input type="file" onChange={this.getFile} />
 										</div>
 									</div>
 								</div>
